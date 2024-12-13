@@ -21,7 +21,7 @@ export const movies = sqliteTable("movies_table", {
 });
 
 export const moviesRelation = relations(movies, ({ many }) => ({
-  nominations: many(awardNominations),
+  nominations: many(nominations),
   cast: many(castCredits),
   crew: many(crewCredits),
 }));
@@ -79,19 +79,19 @@ export const oscars = sqliteTable("oscars_table", {
   done: int({ mode: "boolean" }).notNull().default(false),
 });
 
-export const awardCategories = sqliteTable("award_categories", {
+export const awards = sqliteTable("award_table", {
   id: text().primaryKey(),
-  requiresNominee: int({ mode: "boolean" }).notNull().default(false),
+  person_nominated: int({ mode: "boolean" }).notNull().default(false),
 });
 
-export const awardNominations = sqliteTable("award_nominations", {
+export const nominations = sqliteTable("nominations_table", {
   id: int().primaryKey(),
   oscar_id: int()
     .notNull()
     .references(() => oscars.id),
   category_id: text()
     .notNull()
-    .references(() => awardCategories.id),
+    .references(() => awards.id),
   movie_id: int()
     .notNull()
     .references(() => movies.id),
@@ -99,32 +99,17 @@ export const awardNominations = sqliteTable("award_nominations", {
   won: int({ mode: "boolean" }).notNull().default(false),
 });
 
-export const awardNominees = sqliteTable("award_nominees", {
-  id: int().primaryKey(),
-  person_id: int().notNull(),
-  nomination_id: int()
-    .notNull()
-    .references(() => awardNominations.id),
-});
-
-export const awardNominationsRelation = relations(
-  awardNominations,
-  ({ one, many }) => ({
-    movie: one(movies, {
-      fields: [awardNominations.movie_id],
-      references: [movies.id],
-    }),
-    category: one(awardCategories, {
-      fields: [awardNominations.category_id],
-      references: [awardCategories.id],
-    }),
-    nominees: many(awardNominees),
-  })
-);
-
-export const awardNomineesRelation = relations(awardNominees, ({ one }) => ({
-  nomination: one(awardNominations, {
-    fields: [awardNominees.nomination_id],
-    references: [awardNominations.id],
+export const nominationRelations = relations(nominations, ({ one }) => ({
+  movie: one(movies, {
+    fields: [nominations.movie_id],
+    references: [movies.id],
+  }),
+  category: one(awards, {
+    fields: [nominations.category_id],
+    references: [awards.id],
+  }),
+  nominee: one(people, {
+    fields: [nominations.nominees_id],
+    references: [people.id],
   }),
 }));

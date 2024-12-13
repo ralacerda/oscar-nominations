@@ -1,4 +1,4 @@
-import { awardCategories, oscars } from "~~/database/schema";
+import { awards, oscars } from "~~/database/schema";
 
 export default defineTask({
   meta: {
@@ -7,10 +7,7 @@ export default defineTask({
   },
   async run() {
     try {
-      await db
-        .insert(awardCategories)
-        .values(seedCategories)
-        .onConflictDoNothing();
+      await db.insert(awards).values(seedCategories).onConflictDoNothing();
 
       await db.insert(oscars).values(seedOscars).onConflictDoNothing();
     } catch (error) {
@@ -30,90 +27,90 @@ const seedOscars = [
 const seedCategories = [
   {
     id: "best-picture",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-director",
-    requiresNominee: true,
+    person_nominated: false,
   },
   {
     id: "best-actor",
-    requiresNominee: true,
+    person_nominated: true,
   },
   {
     id: "best-actress",
-    requiresNominee: true,
+    person_nominated: true,
   },
   {
     id: "best-supporting-actor",
-    requiresNominee: true,
+    person_nominated: true,
   },
   {
     id: "best-supporting-actress",
-    requiresNominee: true,
+    person_nominated: true,
   },
   {
     id: "best-original-screenplay",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-adapted-screenplay",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-animated-feature",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-international-feature",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-documentary-feature-film",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-documentary-short-film",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-live-action-short-film",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-original-score",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-original-song",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-sound",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-production-design",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-cinematography",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-makeup-and-hairstyling",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-film-editing",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-visual-effects",
-    requiresNominee: false,
+    person_nominated: false,
   },
   {
     id: "best-costume-design",
-    requiresNominee: false,
+    person_nominated: false,
   },
 ];

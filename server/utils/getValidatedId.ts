@@ -1,7 +1,7 @@
 import * as v from "valibot";
 
 const IdScheme = v.object({
-  id: v.pipe(v.string(), v.transform(Number), v.number()),
+  id: v.number(),
 });
 
 export function getValidatedId(params: unknown): { id: number } {

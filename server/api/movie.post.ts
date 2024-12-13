@@ -1,16 +1,16 @@
-import createTMDbClient from "~~/server/utils/createTMDbClient";
 import { castCredits, crewCredits, movies, people } from "~~/database/schema";
 
 export default eventHandler(
   async (event): Promise<APIResponse<{ id: number }>> => {
+    const { id } = await readValidatedBody(event, getValidatedId);
     const key = useRuntimeConfig(event).tmdbAccessToken;
-    const { id } = await getValidatedRouterParams(event, getValidatedId);
-
     const client = createTMDbClient(key);
 
     const check = await db.query.movies.findFirst({
       where: (movies, { eq }) => eq(movies.id, id),
     });
+
+    console.log(check);
 
     if (check) {
       return {
@@ -27,17 +27,20 @@ export default eventHandler(
       },
     });
 
-    await db.insert(movies).values({
-      id: result.id,
-      backdrop_path: result.backdrop_path,
-      imdb_id: result.imdb_id,
-      original_title: result.original_title,
-      overview: result.overview,
-      poster_path: result.poster_path,
-      runtime: result.runtime,
-      title: result.title,
-      genres: result.genres.map((genre) => genre.name).join(", "),
-    });
+    await db
+      .insert(movies)
+      .values({
+        id: id,
+        backdrop_path: result.backdrop_path,
+        imdb_id: result.imdb_id,
+        original_title: result.original_title,
+        overview: result.overview,
+        poster_path: result.poster_path,
+        runtime: result.runtime,
+        title: result.title,
+        genres: result.genres.map((genre) => genre.name).join(", "),
+      })
+      .onConflictDoNothing();
 
     await db
       .insert(people)
@@ -61,14 +64,23 @@ export default eventHandler(
       )
       .onConflictDoNothing();
 
+    console.log(
+      result.credits.cast.map((cast) => ({
+        person_id: cast.id,
+        character: cast.character,
+        order: cast.order,
+        movie_id: id,
+      }))
+    );
+
     await db
       .insert(castCredits)
       .values(
         result.credits.cast.map((cast) => ({
           person_id: cast.id,
-          movie_id: result.id,
           character: cast.character,
           order: cast.order,
+          movie_id: id,
         }))
       )
       .onConflictDoNothing();
@@ -78,8 +90,8 @@ export default eventHandler(
       .values(
         result.credits.crew.map((crew) => ({
           person_id: crew.id,
-          movie_id: result.id,
           department: crew.department,
+          movie_id: id,
         }))
       )
       .onConflictDoNothing();

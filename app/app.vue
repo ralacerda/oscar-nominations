@@ -17,7 +17,7 @@ const currentAward = ref<Award>(awards.value[0]!)
 const currentTitle = ref<number>()
 const currentNominee = ref<number>()
 
-const { state } = useQuery({
+const { state, refetch } = useQuery({
   key: () => ['nomination', currentAward.value.id],
   query: () => $fetch(`/api/nominations/`, { query: { category: currentAward.value.id, oscarId: 2024 } }),
 })
@@ -34,6 +34,8 @@ async function submit() {
     method: 'POST',
     body: { category: awardId, movie: title, oscarId: 2024, person: currentNominee.value },
   })
+
+  refetch()
 }
 </script>
 

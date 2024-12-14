@@ -75,11 +75,10 @@ export const crewCreditsRelation = relations(crewCredits, ({ one }) => ({
 // Awards and Nominations
 export const oscars = sqliteTable("oscars_table", {
   id: int().primaryKey(),
-  year: text().notNull().unique(),
   done: int({ mode: "boolean" }).notNull().default(false),
 });
 
-export const awards = sqliteTable("award_table", {
+export const awards = sqliteTable("awards_table", {
   id: text().primaryKey(),
   person_nominated: int({ mode: "boolean" }).notNull().default(false),
 });

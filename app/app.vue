@@ -73,9 +73,9 @@ async function submit() {
       <ul>
         <li
           v-for="nomination in state.data"
-          :key="nomination.id"
+          :key="nomination.movieId"
         >
-          {{ nomination.title }} <span v-if="nomination.won"> - Winner</span>
+          {{ nomination.movie.title }} <span v-if="nomination.won"> - Winner</span>
         </li>
       </ul>
     </div>

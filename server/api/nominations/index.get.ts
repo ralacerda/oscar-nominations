@@ -11,7 +11,7 @@ export default eventHandler(async (event) => {
     data => v.parse(NominationQueryScheme, data),
   )
 
-  const nominations = await db.query.nominations.findMany({
+  return await db.query.nominations.findMany({
     where: (nomineers, { eq, and }) => and(eq(nomineers.categoryId, category), eq(nomineers.oscarId, oscarId)),
     with: {
       movie: true,
@@ -21,14 +21,5 @@ export default eventHandler(async (event) => {
       movieId: true,
       won: true,
     },
-  })
-
-  return nominations.map(({ movie, movieId, won, nominee }) => {
-    return {
-      title: movie.title,
-      nominee: nominee?.name,
-      id: movieId,
-      won,
-    }
   })
 })

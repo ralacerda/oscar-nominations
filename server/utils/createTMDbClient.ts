@@ -1,15 +1,15 @@
 export default function createTMDbClient(key: string) {
   const client = $fetch.create({
-    baseURL: "https://api.themoviedb.org/3/movie",
-    method: "GET",
+    baseURL: 'https://api.themoviedb.org/3/movie',
+    method: 'GET',
     headers: {
-      accept: "application/json",
+      accept: 'application/json',
       Authorization: `Bearer ${key}`,
     },
     query: {
-      language: "pt-BR",
+      language: 'pt-BR',
     },
-  });
+  })
 
-  return client;
+  return client
 }

@@ -1,140 +1,141 @@
-import { awards, oscars } from "~~/database/schema";
+import { awards, oscars } from '~~/database/schema'
 
 export default defineTask({
   meta: {
-    name: "db:seed",
-    description: "Seed awards and years",
+    name: 'db:seed',
+    description: 'Seed awards and years',
   },
   async run() {
     try {
-      await db.insert(awards).values(seedCategories).onConflictDoNothing();
+      await db.insert(awards).values(seedCategories).onConflictDoNothing()
 
-      await db.insert(oscars).values(seedOscars).onConflictDoNothing();
-    } catch (error) {
-      return { result: "Error", error };
+      await db.insert(oscars).values(seedOscars).onConflictDoNothing()
     }
-    return { result: "Success" };
+    catch (error) {
+      return { result: 'Error', error }
+    }
+    return { result: 'Success' }
   },
-});
+})
 
 const seedOscars = [
   {
     id: 2024,
     done: true,
   },
-];
+]
 
 const seedCategories = [
   {
-    id: "best-picture",
+    id: 'best-picture',
     person_nominated: false,
-    title: "Melhor filme",
+    title: 'Melhor filme',
   },
   {
-    id: "best-director",
+    id: 'best-director',
     person_nominated: false,
-    title: "Melhor direção",
+    title: 'Melhor direção',
   },
   {
-    id: "best-actor",
+    id: 'best-actor',
     person_nominated: true,
-    title: "Melhor ator",
+    title: 'Melhor ator',
   },
   {
-    id: "best-actress",
+    id: 'best-actress',
     person_nominated: true,
-    title: "Melhor atriz",
+    title: 'Melhor atriz',
   },
   {
-    id: "best-supporting-actor",
+    id: 'best-supporting-actor',
     person_nominated: true,
-    title: "Melhor ator coadjuvante",
+    title: 'Melhor ator coadjuvante',
   },
   {
-    id: "best-supporting-actress",
+    id: 'best-supporting-actress',
     person_nominated: true,
-    title: "Melhor atriz coadjuvante",
+    title: 'Melhor atriz coadjuvante',
   },
   {
-    id: "best-original-screenplay",
+    id: 'best-original-screenplay',
     person_nominated: false,
-    title: "Melhor roteiro original",
+    title: 'Melhor roteiro original',
   },
   {
-    id: "best-adapted-screenplay",
+    id: 'best-adapted-screenplay',
     person_nominated: false,
-    title: "Melhor roteiro adaptado",
+    title: 'Melhor roteiro adaptado',
   },
   {
-    id: "best-animated-feature",
+    id: 'best-animated-feature',
     person_nominated: false,
-    title: "Melhor filme de animação",
+    title: 'Melhor filme de animação',
   },
   {
-    id: "best-international-feature",
+    id: 'best-international-feature',
     person_nominated: false,
-    title: "Melhor filme internacional",
+    title: 'Melhor filme internacional',
   },
   {
-    id: "best-documentary-feature-film",
+    id: 'best-documentary-feature-film',
     person_nominated: false,
-    title: "Melhor documentário",
+    title: 'Melhor documentário',
   },
   {
-    id: "best-documentary-short-film",
+    id: 'best-documentary-short-film',
     person_nominated: false,
-    title: "Melhor documentário em curta-metragem",
+    title: 'Melhor documentário em curta-metragem',
     short: true,
   },
   {
-    id: "best-live-action-short-film",
+    id: 'best-live-action-short-film',
     person_nominated: false,
-    title: "Melhor curta-metragem em live action",
+    title: 'Melhor curta-metragem em live action',
     short: true,
   },
   {
-    id: "best-original-score",
+    id: 'best-original-score',
     person_nominated: false,
-    title: "Melhor trilha sonora original",
+    title: 'Melhor trilha sonora original',
   },
   {
-    id: "best-original-song",
+    id: 'best-original-song',
     person_nominated: false,
-    title: "Melhor canção original",
+    title: 'Melhor canção original',
   },
   {
-    id: "best-sound",
+    id: 'best-sound',
     person_nominated: false,
-    title: "Melhor som",
+    title: 'Melhor som',
   },
   {
-    id: "best-production-design",
+    id: 'best-production-design',
     person_nominated: false,
-    title: "Melhor direção de arte",
+    title: 'Melhor direção de arte',
   },
   {
-    id: "best-cinematography",
+    id: 'best-cinematography',
     person_nominated: false,
-    title: "Melhor fotografia",
+    title: 'Melhor fotografia',
   },
   {
-    id: "best-makeup-and-hairstyling",
+    id: 'best-makeup-and-hairstyling',
     person_nominated: false,
-    title: "Melhor maquiagem e penteados",
+    title: 'Melhor maquiagem e penteados',
   },
   {
-    id: "best-film-editing",
+    id: 'best-film-editing',
     person_nominated: false,
-    title: "Melhor edição",
+    title: 'Melhor edição',
   },
   {
-    id: "best-visual-effects",
+    id: 'best-visual-effects',
     person_nominated: false,
-    title: "Melhores efeitos visuais",
+    title: 'Melhores efeitos visuais',
   },
   {
-    id: "best-costume-design",
+    id: 'best-costume-design',
     person_nominated: false,
-    title: "Melhor figurino",
+    title: 'Melhor figurino',
   },
-];
+]

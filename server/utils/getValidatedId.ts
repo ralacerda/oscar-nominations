@@ -1,9 +1,9 @@
-import * as v from "valibot";
+import * as v from 'valibot'
 
 const IdScheme = v.object({
   id: v.number(),
-});
+})
 
 export function getValidatedId(params: unknown): { id: number } {
-  return v.parse(IdScheme, params);
+  return v.parse(IdScheme, params)
 }

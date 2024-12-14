@@ -30,7 +30,6 @@ export default eventHandler(
       .values({
         id: id,
         backdropPath: result.backdrop_path,
-        imdbId: result.imdb_id,
         originalTitle: result.original_title,
         overview: result.overview,
         posterPath: result.poster_path,

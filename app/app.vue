@@ -32,7 +32,7 @@ async function submit() {
 
   await $fetch('/api/nominations', {
     method: 'POST',
-    body: { category: awardId, movie: title, oscarId: 2024, person: currentNominee.value },
+    body: { award: awardId, movie: title, oscarId: 2024, person: currentNominee.value },
   })
 
   refetch()
@@ -55,7 +55,7 @@ async function submit() {
     <form @submit.prevent="submit">
       <input v-model.number="currentTitle">
       <input
-        v-if="currentAward.personNominated"
+        v-if="currentAward.requiresNominee"
         v-model.number="currentNominee"
       >
       <button type="submit">

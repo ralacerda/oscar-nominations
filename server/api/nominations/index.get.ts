@@ -12,7 +12,7 @@ export default eventHandler(async (event) => {
   )
 
   return await db.query.nominations.findMany({
-    where: (nomineers, { eq, and }) => and(eq(nomineers.categoryId, category), eq(nomineers.oscarId, oscarId)),
+    where: (nomineers, { eq, and }) => and(eq(nomineers.awardId, category), eq(nomineers.oscarId, oscarId)),
     with: {
       movie: true,
       nominee: true,

@@ -2,15 +2,14 @@ import * as v from 'valibot'
 import { nominations } from '~~/database/schema'
 
 const NominationBodyScheme = v.object({
-  // TODO: Mudar category para award
-  category: v.pipe(v.string(), v.trim(), v.nonEmpty()),
+  award: v.pipe(v.string(), v.trim(), v.nonEmpty()),
   movie: v.number(),
-  person: v.optional(v.number()),
+  nominee: v.optional(v.number()),
   oscarId: v.number(),
 })
 
 export default eventHandler(async (event) => {
-  const { category, movie, person, oscarId } = await readValidatedBody(
+  const { award, movie, nominee, oscarId } = await readValidatedBody(
     event,
     data => v.parse(NominationBodyScheme, data),
   )
@@ -23,9 +22,9 @@ export default eventHandler(async (event) => {
   })
 
   await db.insert(nominations).values({
-    categoryId: category,
+    awardId: award,
     movieId: movie,
     oscarId: oscarId,
-    nomineesId: person,
+    nomineeId: nominee,
   })
 })

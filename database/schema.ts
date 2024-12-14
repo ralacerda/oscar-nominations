@@ -5,15 +5,14 @@ import { int, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 export const people = sqliteTable('people_table', {
   id: int().primaryKey(),
   name: text().notNull(),
-  profilePath: text(),
+  profileImagePath: text(),
 })
 
 export const movies = sqliteTable('movies_table', {
   id: int().primaryKey(),
   backdropPath: text().notNull(),
-  imdbId: text().notNull().unique(),
   originalTitle: text().notNull(),
-  overview: text().notNull(),
+  overview: text(),
   posterPath: text().notNull(),
   runtime: int().notNull(),
   title: text().notNull(),
@@ -82,7 +81,7 @@ export const awards = sqliteTable('awards_table', {
   id: text().primaryKey(),
   title: text().notNull(),
   short: int({ mode: 'boolean' }).notNull().default(false),
-  personNominated: int({ mode: 'boolean' }).notNull().default(false),
+  requiresNominee: int({ mode: 'boolean' }).notNull().default(false),
 })
 
 export const nominations = sqliteTable('nominations_table', {
@@ -90,27 +89,27 @@ export const nominations = sqliteTable('nominations_table', {
   oscarId: int()
     .notNull()
     .references(() => oscars.id),
-  categoryId: text()
+  awardId: text()
     .notNull()
     .references(() => awards.id),
   movieId: int()
     .notNull()
     .references(() => movies.id),
-  nomineesId: int(),
+  nomineeId: int(),
   won: int({ mode: 'boolean' }).notNull().default(false),
 })
 
-export const nominationRelations = relations(nominations, ({ one }) => ({
+export const nominationsRelations = relations(nominations, ({ one }) => ({
   movie: one(movies, {
     fields: [nominations.movieId],
     references: [movies.id],
   }),
   category: one(awards, {
-    fields: [nominations.categoryId],
+    fields: [nominations.awardId],
     references: [awards.id],
   }),
   nominee: one(people, {
-    fields: [nominations.nomineesId],
+    fields: [nominations.nomineeId],
     references: [people.id],
   }),
 }))

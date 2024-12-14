@@ -29,11 +29,11 @@ export default eventHandler(
       .insert(movies)
       .values({
         id: id,
-        backdrop_path: result.backdrop_path,
-        imdb_id: result.imdb_id,
-        original_title: result.original_title,
+        backdropPath: result.backdrop_path,
+        imdbId: result.imdb_id,
+        originalTitle: result.original_title,
         overview: result.overview,
-        poster_path: result.poster_path,
+        posterPath: result.poster_path,
         runtime: result.runtime,
         title: result.title,
         genres: result.genres.map(genre => genre.name).join(', '),
@@ -46,7 +46,7 @@ export default eventHandler(
         result.credits.cast.map(cast => ({
           id: cast.id,
           name: cast.name,
-          profile_path: cast.profile_path,
+          profilePath: cast.profile_path,
         })),
       )
       .onConflictDoNothing()
@@ -57,7 +57,7 @@ export default eventHandler(
         result.credits.crew.map(crew => ({
           id: crew.id,
           name: crew.name,
-          profile_path: crew.profile_path,
+          profilePath: crew.profile_path,
         })),
       )
       .onConflictDoNothing()
@@ -66,10 +66,10 @@ export default eventHandler(
       .insert(castCredits)
       .values(
         result.credits.cast.map(cast => ({
-          person_id: cast.id,
+          personId: cast.id,
           character: cast.character,
           order: cast.order,
-          movie_id: id,
+          movieId: id,
         })),
       )
       .onConflictDoNothing()
@@ -78,9 +78,9 @@ export default eventHandler(
       .insert(crewCredits)
       .values(
         result.credits.crew.map(crew => ({
-          person_id: crew.id,
+          personId: crew.id,
           department: crew.department,
-          movie_id: id,
+          movieId: id,
         })),
       )
       .onConflictDoNothing()

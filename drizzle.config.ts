@@ -7,4 +7,5 @@ export default defineConfig({
   dbCredentials: {
     url: 'file:./database/local.db',
   },
+  casing: 'snake_case',
 })

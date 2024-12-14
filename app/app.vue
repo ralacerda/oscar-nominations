@@ -53,7 +53,7 @@ async function submit() {
     <form @submit.prevent="submit">
       <input v-model.number="currentTitle">
       <input
-        v-if="currentAward.person_nominated"
+        v-if="currentAward.personNominated"
         v-model.number="currentNominee"
       >
       <button type="submit">

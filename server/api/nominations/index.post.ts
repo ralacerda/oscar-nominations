@@ -23,9 +23,9 @@ export default eventHandler(async (event) => {
   })
 
   await db.insert(nominations).values({
-    category_id: category,
-    movie_id: movie,
-    oscar_id: oscarId,
-    nominees_id: person,
+    categoryId: category,
+    movieId: movie,
+    oscarId: oscarId,
+    nomineesId: person,
   })
 })

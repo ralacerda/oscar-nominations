@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import type { awards as awardsScheme } from '~~/database/schema'
+
+type Award = typeof awardsScheme.$inferSelect
+
 const { data: awards } = await useFetch('/api/awards', {
   query: {
     shorts: 'exclude',
@@ -11,8 +15,14 @@ if (!awards.value) {
 
 const currentAward = ref<Award>(awards.value[0]!)
 const currentTitle = ref<number>()
+const currentNominee = ref<number>()
 
-function submit() {
+const { state } = useQuery({
+  key: () => ['nomination', currentAward.value.id],
+  query: () => $fetch(`/api/nominations/`, { query: { category: currentAward.value.id, oscarId: 2024 } }),
+})
+
+async function submit() {
   if (!currentTitle.value) {
     return
   }
@@ -20,14 +30,15 @@ function submit() {
   const awardId = currentAward.value.id
   const title = currentTitle.value
 
-  $fetch('/api/nominations', {
+  await $fetch('/api/nominations', {
     method: 'POST',
-    body: { category: awardId, movie: title, oscarId: 2024 },
+    body: { category: awardId, movie: title, oscarId: 2024, person: currentNominee.value },
   })
 }
 </script>
 
 <template>
+  {{ currentAward }}
   <div>
     <select v-model="currentAward">
       <option
@@ -41,9 +52,32 @@ function submit() {
 
     <form @submit.prevent="submit">
       <input v-model.number="currentTitle">
+      <input
+        v-if="currentAward.person_nominated"
+        v-model.number="currentNominee"
+      >
       <button type="submit">
         Submit
       </button>
     </form>
+
+    <div v-if="state.status == 'pending'">
+      Loading...
+    </div>
+
+    <div v-else-if="state.status == 'error'">
+      {{ state.error.message }}
+    </div>
+
+    <div v-else>
+      <ul>
+        <li
+          v-for="nomination in state.data"
+          :key="nomination.id"
+        >
+          {{ nomination.title }} <span v-if="nomination.won"> - Winner</span>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>

@@ -80,6 +80,8 @@ export const oscars = sqliteTable("oscars_table", {
 
 export const awards = sqliteTable("awards_table", {
   id: text().primaryKey(),
+  title: text().notNull(),
+  short: int({ mode: "boolean" }).notNull().default(false),
   person_nominated: int({ mode: "boolean" }).notNull().default(false),
 });
 

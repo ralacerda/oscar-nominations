@@ -10,8 +10,6 @@ export default eventHandler(
       where: (movies, { eq }) => eq(movies.id, id),
     });
 
-    console.log(check);
-
     if (check) {
       return {
         ok: true,
@@ -63,15 +61,6 @@ export default eventHandler(
         }))
       )
       .onConflictDoNothing();
-
-    console.log(
-      result.credits.cast.map((cast) => ({
-        person_id: cast.id,
-        character: cast.character,
-        order: cast.order,
-        movie_id: id,
-      }))
-    );
 
     await db
       .insert(castCredits)

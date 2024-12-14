@@ -2,6 +2,7 @@ import * as v from 'valibot'
 import { nominations } from '~~/database/schema'
 
 const NominationBodyScheme = v.object({
+  // TODO: Mudar category para award
   category: v.pipe(v.string(), v.trim(), v.nonEmpty()),
   movie: v.number(),
   person: v.optional(v.number()),

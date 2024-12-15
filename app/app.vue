@@ -46,6 +46,23 @@ async function submitBatch(content: string) {
 
   refetch();
 }
+
+async function markAsWinner(nominationId: number) {
+  await $fetch(`/api/nominations/${nominationId}`, {
+    method: "PATCH",
+    body: { won: true },
+  });
+
+  refetch();
+}
+
+async function deleteNomination(nominationId: number) {
+  await $fetch(`/api/nominations/${nominationId}`, {
+    method: "DELETE",
+  });
+
+  refetch();
+}
 </script>
 
 <template>
@@ -84,6 +101,8 @@ async function submitBatch(content: string) {
             v-if="nomination.nominee?.profileImagePath"
             :src="getProfileImageURL(nomination.nominee.profileImagePath)"
           />
+          <button @click="markAsWinner(nomination.id)">Mark as winner</button>
+          <button @click="deleteNomination(nomination.id)">Delete</button>
         </li>
       </ul>
     </div>

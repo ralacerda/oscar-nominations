@@ -18,6 +18,7 @@ export default eventHandler(async (event) => {
       nominee: true,
     },
     columns: {
+      id: true,
       movieId: true,
       won: true,
     },

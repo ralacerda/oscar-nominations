@@ -6,10 +6,11 @@ const NominationBodyScheme = v.object({
   movie: v.number(),
   nominee: v.optional(v.number()),
   oscarId: v.number(),
+  won: v.optional(v.boolean()),
 });
 
 export default eventHandler(async (event) => {
-  const { award, movie, nominee, oscarId } = await readValidatedBody(
+  const { award, movie, nominee, oscarId, won } = await readValidatedBody(
     event,
     (data) => v.parse(NominationBodyScheme, data),
   );
@@ -26,5 +27,6 @@ export default eventHandler(async (event) => {
     movieId: movie,
     oscarId: oscarId,
     nomineeId: nominee,
+    won,
   });
 });

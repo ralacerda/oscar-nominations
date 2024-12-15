@@ -10,8 +10,6 @@ if (!awards.value) {
 }
 
 const currentAward = ref<Award>(awards.value[0]!);
-const currentTitle = ref<number>();
-const currentNominee = ref<number>();
 
 const { state, refetch } = useQuery({
   key: () => ["nomination", currentAward.value.id],
@@ -21,21 +19,15 @@ const { state, refetch } = useQuery({
     }),
 });
 
-async function submit() {
-  if (!currentTitle.value) {
-    return;
-  }
-
-  const awardId = currentAward.value.id;
-  const title = currentTitle.value;
-
+async function submit(movieId: number, won: boolean, nominee?: number) {
   await $fetch("/api/nominations", {
     method: "POST",
     body: {
-      award: awardId,
-      movie: title,
+      award: currentAward.value.id,
+      movie: movieId,
       oscarId: 2024,
-      nominee: currentNominee.value,
+      nominee: nominee,
+      won,
     },
   });
 
@@ -52,14 +44,10 @@ async function submit() {
       </option>
     </select>
 
-    <form @submit.prevent="submit">
-      <input v-model.number="currentTitle" />
-      <input
-        v-if="currentAward.requiresNominee"
-        v-model.number="currentNominee"
-      />
-      <button type="submit">Submit</button>
-    </form>
+    <SingleInsert
+      :requires-nominee="currentAward.requiresNominee"
+      @submit="submit"
+    />
 
     <div v-if="state.status == 'pending'">Loading...</div>
 

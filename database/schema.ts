@@ -1,14 +1,14 @@
-import { relations } from 'drizzle-orm'
-import { int, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { relations } from "drizzle-orm";
+import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 // People and Movies (Core tables)
-export const people = sqliteTable('people_table', {
+export const people = sqliteTable("people_table", {
   id: int().primaryKey(),
   name: text().notNull(),
   profileImagePath: text(),
-})
+});
 
-export const movies = sqliteTable('movies_table', {
+export const movies = sqliteTable("movies_table", {
   id: int().primaryKey(),
   backdropPath: text().notNull(),
   originalTitle: text().notNull(),
@@ -17,16 +17,16 @@ export const movies = sqliteTable('movies_table', {
   runtime: int().notNull(),
   title: text().notNull(),
   genres: text().notNull(),
-})
+});
 
 export const moviesRelation = relations(movies, ({ many }) => ({
   nominations: many(nominations),
   cast: many(castCredits),
   crew: many(crewCredits),
-}))
+}));
 
 // Credits
-export const castCredits = sqliteTable('cast_credits', {
+export const castCredits = sqliteTable("cast_credits", {
   id: int().primaryKey(),
   personId: int()
     .notNull()
@@ -36,7 +36,7 @@ export const castCredits = sqliteTable('cast_credits', {
     .references(() => movies.id),
   character: text().notNull(),
   order: int().notNull(),
-})
+});
 
 export const castCreditsRelation = relations(castCredits, ({ one }) => ({
   person: one(people, {
@@ -47,9 +47,9 @@ export const castCreditsRelation = relations(castCredits, ({ one }) => ({
     fields: [castCredits.movieId],
     references: [movies.id],
   }),
-}))
+}));
 
-export const crewCredits = sqliteTable('crew_credits', {
+export const crewCredits = sqliteTable("crew_credits", {
   id: int().primaryKey(),
   personId: int()
     .notNull()
@@ -58,7 +58,7 @@ export const crewCredits = sqliteTable('crew_credits', {
     .notNull()
     .references(() => movies.id),
   department: text().notNull(),
-})
+});
 
 export const crewCreditsRelation = relations(crewCredits, ({ one }) => ({
   person: one(people, {
@@ -69,22 +69,22 @@ export const crewCreditsRelation = relations(crewCredits, ({ one }) => ({
     fields: [crewCredits.movieId],
     references: [movies.id],
   }),
-}))
+}));
 
 // Awards and Nominations
-export const oscars = sqliteTable('oscars_table', {
+export const oscars = sqliteTable("oscars_table", {
   id: int().primaryKey(),
-  done: int({ mode: 'boolean' }).notNull().default(false),
-})
+  done: int({ mode: "boolean" }).notNull().default(false),
+});
 
-export const awards = sqliteTable('awards_table', {
+export const awards = sqliteTable("awards_table", {
   id: text().primaryKey(),
   title: text().notNull(),
-  short: int({ mode: 'boolean' }).notNull().default(false),
-  requiresNominee: int({ mode: 'boolean' }).notNull().default(false),
-})
+  short: int({ mode: "boolean" }).notNull().default(false),
+  requiresNominee: int({ mode: "boolean" }).notNull().default(false),
+});
 
-export const nominations = sqliteTable('nominations_table', {
+export const nominations = sqliteTable("nominations_table", {
   id: int().primaryKey(),
   oscarId: int()
     .notNull()
@@ -96,8 +96,8 @@ export const nominations = sqliteTable('nominations_table', {
     .notNull()
     .references(() => movies.id),
   nomineeId: int(),
-  won: int({ mode: 'boolean' }).notNull().default(false),
-})
+  won: int({ mode: "boolean" }).notNull().default(false),
+});
 
 export const nominationsRelations = relations(nominations, ({ one }) => ({
   movie: one(movies, {
@@ -112,4 +112,4 @@ export const nominationsRelations = relations(nominations, ({ one }) => ({
     fields: [nominations.nomineeId],
     references: [people.id],
   }),
-}))
+}));

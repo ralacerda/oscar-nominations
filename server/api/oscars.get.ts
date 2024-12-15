@@ -1,3 +1,3 @@
 export default eventHandler(() => {
-  return db.query.awards.findMany()
-})
+  return db.query.awards.findMany();
+});

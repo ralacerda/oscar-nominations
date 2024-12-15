@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import type { awards as awardsScheme } from "~~/database/schema";
-
-type Award = typeof awardsScheme.$inferSelect;
-
 const { data: awards } = await useFetch("/api/awards", {
   query: {
     shorts: "exclude",

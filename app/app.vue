@@ -33,6 +33,19 @@ async function submit(movieId: number, won: boolean, nominee?: number) {
 
   refetch();
 }
+
+async function submitBatch(content: string) {
+  await $fetch("/api/nominations/batch", {
+    method: "POST",
+    body: {
+      award: currentAward.value.id,
+      oscarId: 2024,
+      content,
+    },
+  });
+
+  refetch();
+}
 </script>
 
 <template>
@@ -49,6 +62,8 @@ async function submit(movieId: number, won: boolean, nominee?: number) {
       @submit="submit"
     />
 
+    <BatchInsert @submit="submitBatch" />
+
     <div v-if="state.status == 'pending'">Loading...</div>
 
     <div v-else-if="state.status == 'error'">
@@ -56,7 +71,6 @@ async function submit(movieId: number, won: boolean, nominee?: number) {
     </div>
 
     <div v-else>
-      {{ state.data }}
       <ul>
         <li v-for="nomination in state.data" :key="nomination.movieId">
           {{ nomination.movie.title }}

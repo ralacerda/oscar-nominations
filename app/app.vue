@@ -78,6 +78,14 @@ async function submit() {
           {{ nomination.movie.title }}
           <span v-if="nomination.nominee">({{ nomination.nominee }})</span>
           <span v-if="nomination.won"> - Winner</span>
+          <img
+            :src="getPosterImageURL(nomination.movie.posterPath)"
+            alt="Poster"
+          />
+          <img
+            v-if="nomination.nominee?.profileImagePath"
+            :src="getProfileImageURL(nomination.nominee.profileImagePath)"
+          />
         </li>
       </ul>
     </div>

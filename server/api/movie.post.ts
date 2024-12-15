@@ -45,7 +45,7 @@ export default eventHandler(
         result.credits.cast.map(cast => ({
           id: cast.id,
           name: cast.name,
-          profilePath: cast.profile_path,
+          profileImagePath: cast.profile_path,
         })),
       )
       .onConflictDoNothing()
@@ -56,7 +56,7 @@ export default eventHandler(
         result.credits.crew.map(crew => ({
           id: crew.id,
           name: crew.name,
-          profilePath: crew.profile_path,
+          profileImagePath: crew.profile_path,
         })),
       )
       .onConflictDoNothing()

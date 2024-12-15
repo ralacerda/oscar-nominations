@@ -32,7 +32,7 @@ async function submit() {
 
   await $fetch('/api/nominations', {
     method: 'POST',
-    body: { award: awardId, movie: title, oscarId: 2024, person: currentNominee.value },
+    body: { award: awardId, movie: title, oscarId: 2024, nominee: currentNominee.value },
   })
 
   refetch()
@@ -72,12 +72,15 @@ async function submit() {
     </div>
 
     <div v-else>
+      {{ state.data }}
       <ul>
         <li
           v-for="nomination in state.data"
           :key="nomination.movieId"
         >
-          {{ nomination.movie.title }} <span v-if="nomination.won"> - Winner</span>
+          {{ nomination.movie.title }}
+          <span v-if="nomination.nominee">({{ nomination.nominee }})</span>
+          <span v-if="nomination.won"> - Winner</span>
         </li>
       </ul>
     </div>

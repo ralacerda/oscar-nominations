@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{
+const { nominations } = defineProps<{
   title: Movie["title"];
   originalTitle: Movie["originalTitle"];
   posterPath: Movie["posterPath"];
@@ -12,6 +12,10 @@ defineProps<{
     nominee: { name: string } | null;
   }[];
 }>();
+
+const nominationsWon = computed(() =>
+  nominations.filter((nomination) => nomination.won),
+);
 </script>
 
 <template>
@@ -37,15 +41,22 @@ defineProps<{
       </div>
       <p class="overview">{{ overview }}</p>
       <div class="nominations">
-        Nomeações
+        {{ nominations.length }}
+        {{ nominations.length > 1 ? "Nomeações" : "Nomeação" }}
+        <template v-if="nominationsWon.length > 0"
+          >- {{ nominationsWon.length }}
+          {{
+            nominationsWon.length > 1 ? "Conquistadas" : "Conquistada"
+          }}</template
+        >
         <ul class="nominations-list">
           <li
             v-for="nomination in nominations"
             :key="nomination.category.title"
           >
-            {{ nomination.category.title }}
-            <template v-if="nomination.nominee"
-              >({{ nomination.nominee.name }})</template
+            {{ nomination.category.title
+            }}<template v-if="nomination.nominee">
+              ({{ nomination.nominee.name }})</template
             >
           </li>
         </ul>
@@ -108,20 +119,26 @@ defineProps<{
 }
 
 .overview {
-  margin-top: 1rem;
-  font-size: 1.125rem;
+  margin-top: 0.25rem;
+  font-size: 1rem;
   color: var(--neutral-4);
+  overflow: hidden;
 }
 
 .nominations {
   color: var(--neutral-6);
-  margin-top: 1rem;
+  margin-top: 1.25rem;
 }
 
 .nominations-list {
   display: flex;
-  gap: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
   font-size: 1.125rem;
   color: var(--neutral-4);
+
+  li:not(:last-child)::after {
+    content: ",";
+  }
 }
 </style>

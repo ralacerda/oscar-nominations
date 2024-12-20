@@ -1,0 +1,23 @@
+@use "reset.scss";
+
+:root {
+  --primary-0: #edf2ff;
+  --primary-1: #dbe4ff;
+  --primary-2: #bac8ff;
+  --primary-3: #91a7ff;
+  --primary-4: #748ffc;
+  --primary-5: #5c7cfa;
+  --primary-6: #4c6ef5;
+  --primary-7: #4263eb;
+  --primary-8: #3b5bdb;
+  --primary-9: #364fc7;
+  --primary-10: #2f44ad;
+  --primary-11: #283a94;
+  --primary-12: #21307a;
+}
+
+body {
+  font-family: "Inter", serif;
+  background-color: rgb(22, 25, 29);
+  color: var(--primary-1);
+}

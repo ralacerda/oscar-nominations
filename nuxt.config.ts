@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     "@pinia/colada-nuxt",
     "@pinia/nuxt",
     "nuxt-auth-utils",
+    "@nuxt/fonts",
   ],
   devtools: { enabled: true },
 
@@ -20,6 +21,16 @@ export default defineNuxtConfig({
   nitro: {
     experimental: {
       tasks: true,
+    },
+  },
+
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: "modern-compiler",
+        },
+      },
     },
   },
 });

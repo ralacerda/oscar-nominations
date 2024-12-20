@@ -17,7 +17,7 @@ export default eventHandler(async (event) => {
         columns: { won: true },
         with: {
           nominee: { columns: { name: true } },
-          category: {
+          award: {
             columns: { id: true, title: true },
           },
         },

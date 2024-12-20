@@ -104,7 +104,7 @@ export const nominationsRelations = relations(nominations, ({ one }) => ({
     fields: [nominations.movieId],
     references: [movies.id],
   }),
-  category: one(awards, {
+  award: one(awards, {
     fields: [nominations.awardId],
     references: [awards.id],
   }),

@@ -14,10 +14,29 @@
   --primary-10: #2f44ad;
   --primary-11: #283a94;
   --primary-12: #21307a;
+
+  --neutral-0: #f8f9fa;
+  --neutral-1: #f1f3f5;
+  --neutral-2: #e9ecef;
+  --neutral-3: #dee2e6;
+  --neutral-4: #ced4da;
+  --neutral-5: #adb5bd;
+  --neutral-6: #868e96;
+  --neutral-7: #495057;
+  --neutral-8: #343a40;
+  --neutral-9: #212529;
+  --neutral-10: #16191d;
+  --neutral-11: #0d0f12;
+  --neutral-12: #030507;
 }
 
 body {
   font-family: "Inter", serif;
-  background-color: rgb(22, 25, 29);
+  background-color: var(--neutral-10);
   color: var(--primary-1);
+}
+
+main {
+  width: min(100% - 3rem, 1200px);
+  margin-inline: auto;
 }

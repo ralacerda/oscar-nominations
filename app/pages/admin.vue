@@ -66,7 +66,7 @@ async function deleteNomination(nominationId: number) {
 </script>
 
 <template>
-  <div>
+  <main>
     <select v-model="currentAward">
       <option v-for="award in awards" :key="award.id" :value="award">
         {{ award.title }}
@@ -105,5 +105,5 @@ async function deleteNomination(nominationId: number) {
         </li>
       </ul>
     </div>
-  </div>
+  </main>
 </template>

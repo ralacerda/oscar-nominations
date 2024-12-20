@@ -8,7 +8,7 @@ const { nominations } = defineProps<{
   genres: Movie["genres"];
   nominations: {
     won: boolean;
-    category: { title: string };
+    category: { title: string; id: string };
     nominee: { name: string } | null;
   }[];
 }>();
@@ -54,10 +54,12 @@ const nominationsWon = computed(() =>
             v-for="nomination in nominations"
             :key="nomination.category.title"
           >
-            {{ nomination.category.title
-            }}<template v-if="nomination.nominee">
-              ({{ nomination.nominee.name }})</template
-            >
+            <NuxtLink :href="`/category/${nomination.category.id}`">
+              {{ nomination.category.title
+              }}<template v-if="nomination.nominee">
+                ({{ nomination.nominee.name }})</template
+              >
+            </NuxtLink>
           </li>
         </ul>
       </div>

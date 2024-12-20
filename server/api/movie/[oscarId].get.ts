@@ -18,7 +18,7 @@ export default eventHandler(async (event) => {
         with: {
           nominee: { columns: { name: true } },
           category: {
-            columns: { title: true },
+            columns: { id: true, title: true },
           },
         },
       },

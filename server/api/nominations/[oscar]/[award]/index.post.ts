@@ -2,17 +2,23 @@ import * as v from "valibot";
 import { nominations } from "~~/database/schema";
 
 const NominationBodyScheme = v.object({
-  award: v.pipe(v.string(), v.trim(), v.nonEmpty()),
   movie: v.number(),
   nominee: v.optional(v.number()),
-  oscarId: v.number(),
   won: v.optional(v.boolean()),
 });
 
+const NominationParams = v.object({
+  oscar: v.pipe(v.string(), v.transform(Number)),
+  award: v.pipe(v.string(), v.trim(), v.nonEmpty()),
+});
+
 export default eventHandler(async (event) => {
-  const { award, movie, nominee, oscarId, won } = await readValidatedBody(
-    event,
-    (data) => v.parse(NominationBodyScheme, data),
+  const { movie, nominee, won } = await readValidatedBody(event, (data) =>
+    v.parse(NominationBodyScheme, data),
+  );
+
+  const { oscar, award } = await getValidatedRouterParams(event, (data) =>
+    v.parse(NominationParams, data),
   );
 
   await $fetch("/api/movie/", {
@@ -25,7 +31,7 @@ export default eventHandler(async (event) => {
   await db.insert(nominations).values({
     awardId: award,
     movieId: movie,
-    oscarId: oscarId,
+    oscarId: oscar,
     nomineeId: nominee,
     won,
   });

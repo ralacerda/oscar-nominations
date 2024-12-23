@@ -13,19 +13,14 @@ const currentAward = ref<Award>(awards.value[0]!);
 
 const { state, refetch } = useQuery({
   key: () => ["nomination", currentAward.value.id],
-  query: () =>
-    $fetch(`/api/nominations/`, {
-      query: { category: currentAward.value.id, oscarId: 2024 },
-    }),
+  query: () => $fetch(`/api/nominations/2024/${currentAward.value.id}`),
 });
 
 async function submit(movieId: number, won: boolean, nominee?: number) {
-  await $fetch("/api/nominations", {
+  await $fetch(`/api/nominations/2024/${currentAward.value.id}`, {
     method: "POST",
     body: {
-      award: currentAward.value.id,
       movie: movieId,
-      oscarId: 2024,
       nominee: nominee,
       won,
     },
@@ -35,11 +30,9 @@ async function submit(movieId: number, won: boolean, nominee?: number) {
 }
 
 async function submitBatch(content: string) {
-  await $fetch("/api/nominations/batch", {
+  await $fetch(`/api/nominations/2024/${currentAward.value.id}/batch`, {
     method: "POST",
     body: {
-      award: currentAward.value.id,
-      oscarId: 2024,
       content,
     },
   });
@@ -48,18 +41,24 @@ async function submitBatch(content: string) {
 }
 
 async function markAsWinner(nominationId: number) {
-  await $fetch(`/api/nominations/${nominationId}`, {
-    method: "PATCH",
-    body: { won: true },
-  });
+  await $fetch(
+    `/api/nominations/2024/${currentAward.value.id}/${nominationId}`,
+    {
+      method: "PATCH",
+      body: { won: true },
+    },
+  );
 
   refetch();
 }
 
 async function deleteNomination(nominationId: number) {
-  await $fetch(`/api/nominations/${nominationId}`, {
-    method: "DELETE",
-  });
+  await $fetch(
+    `/api/nominations/2024/${currentAward.value.id}/${nominationId}`,
+    {
+      method: "DELETE",
+    },
+  );
 
   refetch();
 }

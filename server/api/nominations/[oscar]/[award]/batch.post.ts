@@ -2,14 +2,21 @@ import * as v from "valibot";
 import { nominations as _nominations } from "~~/database/schema";
 
 const BatchScheme = v.object({
-  award: v.string(),
-  oscarId: v.number(),
   content: v.string(),
 });
 
+const NominationParams = v.object({
+  oscar: v.pipe(v.string(), v.transform(Number)),
+  award: v.pipe(v.string(), v.trim(), v.nonEmpty()),
+});
+
 export default eventHandler(async (event) => {
-  const { content, award, oscarId } = await readValidatedBody(event, (data) =>
+  const { content } = await readValidatedBody(event, (data) =>
     v.parse(BatchScheme, data),
+  );
+
+  const { oscar, award } = await getValidatedRouterParams(event, (data) =>
+    v.parse(NominationParams, data),
   );
 
   const awardInfo = await db.query.awards.findFirst({
@@ -54,7 +61,7 @@ export default eventHandler(async (event) => {
         nominee: nomination.nominee
           ? Number.parseInt(nomination.nominee)
           : undefined,
-        oscarId: oscarId,
+        oscarId: oscar,
         won: nomination.won,
       },
     });

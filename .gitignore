@@ -23,4 +23,4 @@ logs
 .flaskenv*
 !.env.project
 !.env.vault
-database/local.db
+database/*.db

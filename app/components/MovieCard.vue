@@ -51,7 +51,7 @@ const nominationsWon = computed(() =>
         >
         <ul class="nominations-list">
           <li v-for="nomination in nominations" :key="nomination.award.title">
-            <NuxtLink :href="`/award/${nomination.award.id}`">
+            <NuxtLink :href="`/oscar-2024/${nomination.award.id}`">
               {{ nomination.award.title
               }}<template v-if="nomination.nominee">
                 ({{ nomination.nominee.name }})</template

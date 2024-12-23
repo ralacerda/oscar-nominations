@@ -5,9 +5,17 @@ const NominationOscarIdParams = v.object({
   oscar: v.pipe(v.string(), v.transform(Number)),
 });
 
+const NominationQuery = v.object({
+  limit: v.optional(v.pipe(v.string(), v.transform(Number))),
+});
+
 export default eventHandler(async (event) => {
   const { oscar } = await getValidatedRouterParams(event, (data) =>
     v.parse(NominationOscarIdParams, data),
+  );
+
+  const { limit } = await getValidatedQuery(event, (data) =>
+    v.parse(NominationQuery, data),
   );
 
   return await db.query.movies.findMany({
@@ -31,5 +39,6 @@ export default eventHandler(async (event) => {
     },
     orderBy: desc(sql.identifier("count")),
     where: gt(sql.identifier("count"), 0),
+    limit: limit,
   });
 });

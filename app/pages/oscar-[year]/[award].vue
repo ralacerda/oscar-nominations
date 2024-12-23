@@ -13,7 +13,7 @@ const { state } = useQuery({
 </script>
 
 <template>
-  <div>
+  <main>
     <h1>Olá</h1>
     <NuxtLink :to="`/oscar-${route.params.year}`">Go Back</NuxtLink>
     <ul>
@@ -38,5 +38,5 @@ const { state } = useQuery({
         />
       </li>
     </ul>
-  </div>
+  </main>
 </template>

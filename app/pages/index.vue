@@ -3,10 +3,22 @@ const { data: posters } = useFetch("/api/oscars/posters");
 </script>
 
 <template>
-  <div>
-    <pre
-      v-for="(poster, oscar) in posters"
-      :key="oscar"
-    ><NuxtLink :to="`/oscar-${oscar}`">{{ oscar}}</NuxtLink> -- {{ poster }}</pre>
-  </div>
+  <main>
+    <div class="oscar-grid">
+      <OscarCard
+        v-for="(poster, oscar) in posters"
+        :key="oscar"
+        :year="oscar"
+        :posters="poster"
+      />
+    </div>
+  </main>
 </template>
+
+<style lang="scss" scoped>
+.oscar-grid {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+}
+</style>

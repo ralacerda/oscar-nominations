@@ -8,7 +8,7 @@ const { data: awards } = await useFetch("/api/awards", {
 const { data: oscars } = await useFetch("/api/oscars");
 
 if (!awards.value || !oscars.value) {
-  throw new Error("No awards found");
+  throw new Error("No awards or Oscars found");
 }
 
 const currentAward = ref<Award>(awards.value[0]!);

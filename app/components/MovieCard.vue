@@ -44,13 +44,18 @@ const nominationsWon = computed(() =>
         {{ nominations.length }}
         {{ nominations.length > 1 ? "Nomeações" : "Nomeação" }}
         <template v-if="nominationsWon.length > 0"
-          >- {{ nominationsWon.length }}
-          {{
-            nominationsWon.length > 1 ? "Conquistadas" : "Conquistada"
-          }}</template
+          >-
+          <span class="won">
+            {{ nominationsWon.length }}
+            {{ nominationsWon.length > 1 ? "Conquistadas" : "Conquistada" }}
+          </span></template
         >
         <ul class="nominations-list">
-          <li v-for="nomination in nominations" :key="nomination.award.title">
+          <li
+            v-for="nomination in nominations"
+            :key="nomination.award.title"
+            :data-won="nomination.won"
+          >
             <NuxtLink :href="`/oscar-2024/${nomination.award.id}`">
               {{ nomination.award.title
               }}<template v-if="nomination.nominee">
@@ -127,6 +132,11 @@ const nominationsWon = computed(() =>
 .nominations {
   color: var(--neutral-6);
   margin-top: 1.25rem;
+
+  .won {
+    color: var(--neutral-4);
+    font-weight: 500;
+  }
 }
 
 .nominations-list {
@@ -134,10 +144,15 @@ const nominationsWon = computed(() =>
   flex-wrap: wrap;
   gap: 0 0.5rem;
   font-size: 1.125rem;
-  color: var(--neutral-4);
+  color: var(--neutral-5);
 
   li:not(:last-child)::after {
     content: ",";
+  }
+
+  li[data-won="true"] {
+    color: var(--neutral-4);
+    font-weight: 500;
   }
 }
 </style>

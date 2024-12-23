@@ -1,11 +1,13 @@
 import * as v from "valibot";
 import { nominations } from "~~/database/schema";
 
-const NominationBodyScheme = v.object({
-  movie: v.number(),
+const MovieScheme = v.object({
+  id: v.number(),
   nominee: v.optional(v.number()),
   won: v.optional(v.boolean()),
 });
+
+const NominationBodyScheme = v.union([v.array(MovieScheme), MovieScheme]);
 
 const NominationParams = v.object({
   oscar: v.pipe(v.string(), v.transform(Number)),
@@ -13,26 +15,32 @@ const NominationParams = v.object({
 });
 
 export default eventHandler(async (event) => {
-  const { movie, nominee, won } = await readValidatedBody(event, (data) =>
+  const _movies = await readValidatedBody(event, (data) =>
     v.parse(NominationBodyScheme, data),
   );
+
+  const movies = Array.isArray(_movies) ? _movies : [_movies];
 
   const { oscar, award } = await getValidatedRouterParams(event, (data) =>
     v.parse(NominationParams, data),
   );
 
-  await $fetch("/api/movie/", {
-    method: "POST",
-    body: {
-      id: movie,
-    },
-  });
+  for (const movie of movies) {
+    await $fetch("/api/movie/", {
+      method: "POST",
+      body: {
+        id: movie.id,
+      },
+    });
 
-  await db.insert(nominations).values({
-    awardId: award,
-    movieId: movie,
-    oscarId: oscar,
-    nomineeId: nominee,
-    won,
-  });
+    await db.insert(nominations).values({
+      awardId: award,
+      movieId: movie.id,
+      oscarId: oscar,
+      nomineeId: movie.nominee,
+      won: movie.won,
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
 });

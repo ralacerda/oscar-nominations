@@ -28,7 +28,7 @@ async function submit(movieId: number, won: boolean, nominee?: number) {
     {
       method: "POST",
       body: {
-        movie: movieId,
+        id: movieId,
         nominee: nominee,
         won,
       },
@@ -39,13 +39,28 @@ async function submit(movieId: number, won: boolean, nominee?: number) {
 }
 
 async function submitBatch(content: string) {
+  const nominations = content.split("\n").map((line) => {
+    if (currentAward.value.requiresNominee) {
+      const [movie, nominee, won] = line.split(",");
+      return {
+        id: parseInt(movie!),
+        nominee: parseInt(nominee!),
+        won: won == "true" ? true : false,
+      };
+    }
+
+    const [id, won] = line.split(",");
+    return {
+      id: parseInt(id!),
+      won: won == "true" ? true : false,
+    };
+  });
+
   await $fetch(
-    `/api/nominations/${currentOscar.value.id}/${currentAward.value.id}/batch`,
+    `/api/nominations/${currentOscar.value.id}/${currentAward.value.id}/`,
     {
       method: "POST",
-      body: {
-        content,
-      },
+      body: nominations,
     },
   );
 

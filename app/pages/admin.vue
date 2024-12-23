@@ -5,44 +5,56 @@ const { data: awards } = await useFetch("/api/awards", {
   },
 });
 
-if (!awards.value) {
+const { data: oscars } = await useFetch("/api/oscars");
+
+if (!awards.value || !oscars.value) {
   throw new Error("No awards found");
 }
 
 const currentAward = ref<Award>(awards.value[0]!);
+const currentOscar = ref<Oscar>(oscars.value[0]!);
 
 const { state, refetch } = useQuery({
-  key: () => ["nomination", currentAward.value.id],
-  query: () => $fetch(`/api/nominations/2024/${currentAward.value.id}`),
+  key: () => ["nomination", currentAward.value.id, currentOscar.value.id],
+  query: () =>
+    $fetch(
+      `/api/nominations/${currentOscar.value.id}/${currentAward.value.id}`,
+    ),
 });
 
 async function submit(movieId: number, won: boolean, nominee?: number) {
-  await $fetch(`/api/nominations/2024/${currentAward.value.id}`, {
-    method: "POST",
-    body: {
-      movie: movieId,
-      nominee: nominee,
-      won,
+  await $fetch(
+    `/api/nominations/${currentOscar.value.id}/${currentAward.value.id}`,
+    {
+      method: "POST",
+      body: {
+        movie: movieId,
+        nominee: nominee,
+        won,
+      },
     },
-  });
+  );
 
   refetch();
 }
 
 async function submitBatch(content: string) {
-  await $fetch(`/api/nominations/2024/${currentAward.value.id}/batch`, {
-    method: "POST",
-    body: {
-      content,
+  await $fetch(
+    `/api/nominations/${currentOscar.value.id}/${currentAward.value.id}/batch`,
+    {
+      method: "POST",
+      body: {
+        content,
+      },
     },
-  });
+  );
 
   refetch();
 }
 
 async function markAsWinner(nominationId: number) {
   await $fetch(
-    `/api/nominations/2024/${currentAward.value.id}/${nominationId}`,
+    `/api/nominations/${currentOscar.value.id}/${currentAward.value.id}/${nominationId}`,
     {
       method: "PATCH",
       body: { won: true },
@@ -54,7 +66,7 @@ async function markAsWinner(nominationId: number) {
 
 async function deleteNomination(nominationId: number) {
   await $fetch(
-    `/api/nominations/2024/${currentAward.value.id}/${nominationId}`,
+    `/api/nominations/${currentOscar.value.id}/${currentAward.value.id}/${nominationId}`,
     {
       method: "DELETE",
     },
@@ -66,6 +78,11 @@ async function deleteNomination(nominationId: number) {
 
 <template>
   <main>
+    <select v-model="currentOscar">
+      <option v-for="oscar in oscars" :key="oscar.id" :value="oscar">
+        {{ oscar.id }}
+      </option>
+    </select>
     <select v-model="currentAward">
       <option v-for="award in awards" :key="award.id" :value="award">
         {{ award.title }}

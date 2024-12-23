@@ -11,6 +11,7 @@ const { nominations } = defineProps<{
     award: { title: string; id: string };
     nominee: { name: string } | null;
   }[];
+  nominee?: { name: string; profileImagePath: string | null };
 }>();
 
 const nominationsWon = computed(() =>
@@ -20,17 +21,33 @@ const nominationsWon = computed(() =>
 
 <template>
   <div class="card">
-    <div class="poster">
+    <div v-if="nominee" class="poster">
+      <img :src="getProfileImageURL(nominee.profileImagePath, 'h632')" alt="" />
+    </div>
+    <div v-else class="poster">
       <img :src="getPosterImageURL(posterPath, 'w342')" alt="" />
     </div>
 
     <div class="info">
-      <h2 class="title">
-        {{ title }}
-      </h2>
-      <div v-if="title !== originalTitle" class="small-title">
-        {{ originalTitle }}
-      </div>
+      <template v-if="nominee">
+        <h2 class="title">
+          {{ nominee.name }}
+        </h2>
+        <div class="small-title">
+          {{ title }}
+          <template v-if="title !== originalTitle"
+            >({{ originalTitle }})</template
+          >
+        </div>
+      </template>
+      <template v-else>
+        <h2 class="title">
+          {{ title }}
+        </h2>
+        <div v-if="title !== originalTitle" class="small-title">
+          {{ originalTitle }}
+        </div>
+      </template>
       <div class="runtime-genres">
         <span class="runtime">{{ runtime }} min</span>-
         <ul class="genres">

@@ -10,7 +10,7 @@ const { state } = useQuery({
 <template>
   <main>
     <div v-if="state.status == 'success'">
-      <h1>Top Movies {{ route.params.year }}</h1>
+      <PageTitle>Oscar {{ route.params.year }}</PageTitle>
       <ul>
         <li v-for="movie in state.data" :key="movie.id">
           <MovieCard v-bind="movie" />
@@ -19,3 +19,10 @@ const { state } = useQuery({
     </div>
   </main>
 </template>
+
+<style lang="scss" scoped>
+h1 {
+  text-align: center;
+  margin-block: 35px;
+}
+</style>

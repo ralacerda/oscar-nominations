@@ -14,7 +14,10 @@ const { state } = useQuery({
 
 <template>
   <main>
-    <h1>Olá</h1>
+    <PageTitle>
+      {{ awardTitles[$route.params.award as AwardId] }} -
+      {{ $route.params.year }}
+    </PageTitle>
     <NuxtLink :to="`/oscar-${route.params.year}`">Go Back</NuxtLink>
     <ul>
       <li v-for="nomination in state.data" :key="nomination.id">

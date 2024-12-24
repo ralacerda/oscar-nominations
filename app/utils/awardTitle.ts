@@ -1,0 +1,26 @@
+export const awardTitles = {
+  "best-picture": "Melhor filme",
+  "best-director": "Melhor direção",
+  "best-actor": "Melhor ator",
+  "best-actress": "Melhor atriz",
+  "best-supporting-actor": "Melhor ator coadjuvante",
+  "best-supporting-actress": "Melhor atriz coadjuvante",
+  "best-original-screenplay": "Melhor roteiro original",
+  "best-adapted-screenplay": "Melhor roteiro adaptado",
+  "best-animated-feature": "Melhor filme de animação",
+  "best-international-feature": "Melhor filme internacional",
+  "best-documentary-feature-film": "Melhor documentário",
+  "best-documentary-short-film": "Melhor documentário em curta-metragem",
+  "best-live-action-short-film": "Melhor curta-metragem em live action",
+  "best-original-score": "Melhor trilha sonora original",
+  "best-original-song": "Melhor canção original",
+  "best-sound": "Melhor som",
+  "best-production-design": "Melhor direção de arte",
+  "best-cinematography": "Melhor fotografia",
+  "best-makeup-and-hairstyling": "Melhor maquiagem e penteados",
+  "best-film-editing": "Melhor edição",
+  "best-visual-effects": "Melhores efeitos visuais",
+  "best-costume-design": "Melhor figurino",
+};
+
+export type AwardId = keyof typeof awardTitles;

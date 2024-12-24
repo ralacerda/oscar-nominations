@@ -10,6 +10,12 @@ const { state } = useQuery({
   query: () =>
     $fetch(`/api/nominations/${route.params.year}/${route.params.award}`),
 });
+
+const nomineeAward = computed(() => {
+  if (!state.value.data) return null;
+
+  return state.value.data.some((n) => n.nominee);
+});
 </script>
 
 <template>
@@ -19,7 +25,21 @@ const { state } = useQuery({
       {{ $route.params.year }}
     </PageTitle>
     <NuxtLink :to="`/oscar-${route.params.year}`">Go Back</NuxtLink>
-    <ul>
+    <ul v-if="nomineeAward" class="nominee-grid">
+      <li v-for="nomination in state.data" :key="nomination.id">
+        <NomineeCard
+          :name="nomination.nominee!.name"
+          :profile-image-path="nomination.nominee!.profileImagePath"
+          :won="nomination.won"
+          :movie="{
+            id: nomination.movie.id,
+            title: nomination.movie.title,
+            originalTitle: nomination.movie.originalTitle,
+          }"
+        />
+      </li>
+    </ul>
+    <ul v-else>
       <li v-for="nomination in state.data" :key="nomination.id">
         <MovieCard
           :title="nomination.movie.title"
@@ -43,3 +63,10 @@ const { state } = useQuery({
     </ul>
   </main>
 </template>
+
+<style lang="scss" scoped>
+.nominee-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+}
+</style>

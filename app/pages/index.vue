@@ -1,5 +1,9 @@
 <script setup lang="ts">
 const { data: posters } = useFetch("/api/oscars/posters");
+
+useHead({
+  title: "Nomeações Oscar",
+});
 </script>
 
 <template>

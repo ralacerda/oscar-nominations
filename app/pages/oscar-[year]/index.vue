@@ -1,6 +1,10 @@
 <script setup lang="ts">
 const route = useRoute();
 
+useHead({
+  title: `Oscar ${route.params.year}`,
+});
+
 const { state } = useQuery({
   key: () => ["top-movies", route.params.year as string],
   query: () => $fetch(`/api/nominations/${route.params.year}`),
@@ -19,10 +23,3 @@ const { state } = useQuery({
     </div>
   </main>
 </template>
-
-<style lang="scss" scoped>
-h1 {
-  text-align: center;
-  margin-block: 35px;
-}
-</style>

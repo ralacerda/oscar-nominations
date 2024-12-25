@@ -1,6 +1,10 @@
 <script setup lang="ts">
 const route = useRoute();
 
+useHead({
+  title: `${awardTitles[route.params.award as AwardId]} - ${route.params.year}`,
+});
+
 const { state } = useQuery({
   key: () => [
     "top-movies",

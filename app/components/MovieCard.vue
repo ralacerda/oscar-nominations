@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { nominations } = defineProps<{
   title: Movie["title"];
+  id: Movie["id"];
   originalTitle: Movie["originalTitle"];
   posterPath: Movie["posterPath"];
   overview: Movie["overview"];
@@ -26,7 +27,7 @@ const nominationsWon = computed(() =>
 
     <div class="info">
       <h2 class="title">
-        {{ title }}
+        <NuxtLink :to="`/movie/${id}`">{{ title }}</NuxtLink>
       </h2>
       <div v-if="title !== originalTitle" class="small-title">
         {{ originalTitle }}

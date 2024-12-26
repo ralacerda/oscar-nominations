@@ -46,6 +46,7 @@ const nomineeAward = computed(() => {
     <ul v-else>
       <li v-for="nomination in state.data" :key="nomination.id">
         <MovieCard
+          :id="nomination.movieId"
           :title="nomination.movie.title"
           :original-title="nomination.movie.originalTitle"
           :runtime="nomination.movie.runtime"

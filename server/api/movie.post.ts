@@ -78,7 +78,7 @@ export default eventHandler(
       .values(
         result.credits.crew.map((crew) => ({
           personId: crew.id,
-          department: crew.department,
+          job: crew.job,
           movieId: id,
         })),
       )

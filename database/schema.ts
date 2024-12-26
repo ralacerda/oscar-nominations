@@ -57,7 +57,7 @@ export const crewCredits = sqliteTable("crew_credits", {
   movieId: int()
     .notNull()
     .references(() => movies.id),
-  department: text().notNull(),
+  job: text().notNull(),
 });
 
 export const crewCreditsRelation = relations(crewCredits, ({ one }) => ({

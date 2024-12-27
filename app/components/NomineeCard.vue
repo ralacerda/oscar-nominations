@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ProfileImage from "@/components/Images/ProfileImage.vue";
+
 defineProps<{
   name: string;
   profileImagePath: string | null;
@@ -14,7 +16,7 @@ defineProps<{
 <template>
   <div class="card">
     <div class="poster">
-      <img :src="getProfileImageURL(profileImagePath, 'w185')" alt="" />
+      <ProfileImage v-if="profileImagePath" :path="profileImagePath" />
     </div>
 
     <div class="info">
@@ -40,7 +42,7 @@ defineProps<{
   box-shadow: 0 0 0 0.0625rem rgba(0, 0, 0, 0.015);
 
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: auto 1fr;
   grid-template-rows: 1fr auto;
   gap: 26px;
 }

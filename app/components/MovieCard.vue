@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import PosterImage from "@/components/Images/PosterImage.vue";
+
 const { nominations } = defineProps<{
   title: Movie["title"];
   id: Movie["id"];
@@ -22,9 +24,8 @@ const nominationsWon = computed(() =>
 <template>
   <div class="card">
     <div class="poster">
-      <img :src="getPosterImageURL(posterPath, 'w342')" alt="" />
+      <PosterImage :path="posterPath" />
     </div>
-
     <div class="info">
       <h2 class="title">
         <NuxtLink :to="`/movie/${id}`">{{ title }}</NuxtLink>
@@ -80,7 +81,7 @@ const nominationsWon = computed(() =>
   box-shadow: 0 0 0 0.0625rem rgba(0, 0, 0, 0.015);
 
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: auto 1fr;
   grid-template-rows: 1fr auto;
   gap: 26px;
 }

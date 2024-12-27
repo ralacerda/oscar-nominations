@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import PosterImage from "@/components/Images/PosterImage.vue";
+
 defineProps<{
   year: string;
   posters: string[];
@@ -11,11 +13,11 @@ defineProps<{
       <NuxtLink :to="`/oscar-${year}`">Oscar {{ year }}</NuxtLink>
     </h2>
     <div class="poster-grid">
-      <img
+      <PosterImage
         v-for="poster in posters"
         :key="poster"
-        :src="getPosterImageURL(poster, 'w154')"
-        alt=""
+        :path="poster"
+        size="small"
       />
     </div>
   </div>

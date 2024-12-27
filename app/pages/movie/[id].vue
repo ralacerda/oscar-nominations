@@ -4,6 +4,10 @@ const route = useRoute();
 const { data: movie, error } = useFetch(
   `/api/movies/${route.params.id as string}`,
 );
+
+const { data: providers } = useFetch(
+  `/api/movies/${route.params.id as string}/providers`,
+);
 </script>
 
 <template>
@@ -15,5 +19,8 @@ const { data: movie, error } = useFetch(
         {{ crew.personId }} - {{ crew.job }}
       </li>
     </ul>
+    <pre>
+      {{ providers }}
+    </pre>
   </main>
 </template>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ProviderImage from "@/components/Images/ProviderImage.vue";
+
 const route = useRoute();
 
 const { data: movie, error } = useFetch(
@@ -19,8 +21,26 @@ const { data: providers } = useFetch(
         {{ crew.personId }} - {{ crew.job }}
       </li>
     </ul>
-    <pre>
-      {{ providers }}
-    </pre>
+    <p>Streaming:</p>
+    <ul v-if="providers">
+      <li v-for="provider in providers.flatrate" :key="provider.provider_id">
+        <ProviderImage :path="provider.logo_path" />
+        {{ provider.provider_name }}
+      </li>
+    </ul>
+    <p>Alugar</p>
+    <ul v-if="providers">
+      <li v-for="provider in providers.rent" :key="provider.provider_id">
+        <ProviderImage :path="provider.logo_path" />
+        {{ provider.provider_name }}
+      </li>
+    </ul>
+    <p>Comprar</p>
+    <ul v-if="providers">
+      <li v-for="provider in providers.buy" :key="provider.provider_id">
+        <ProviderImage :path="provider.logo_path" />
+        {{ provider.provider_name }}
+      </li>
+    </ul>
   </main>
 </template>

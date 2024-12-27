@@ -19,7 +19,7 @@ export default cachedEventHandler(
       return results.BR;
     }
 
-    return createError({
+    throw createError({
       statusCode: 404,
       message: "No providers found",
     });

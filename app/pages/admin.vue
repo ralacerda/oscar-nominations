@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import PosterImage from "~/components/Images/PosterImage.vue";
+import ProfileImage from "~/components/Images/ProfileImage.vue";
+
 const { data: awards } = await useFetch("/api/awards", {
   query: {
     shorts: "exclude",
@@ -13,6 +16,9 @@ if (!awards.value || !oscars.value) {
 
 const currentAward = ref<Award>(awards.value[0]!);
 const currentOscar = ref<Oscar>(oscars.value[0]!);
+const nominationCount = computed(() => {
+  return state.value.data?.length || 0;
+});
 
 const { state, refetch } = useQuery({
   key: () => ["nomination", currentAward.value.id, currentOscar.value.id],
@@ -118,19 +124,18 @@ async function deleteNomination(nominationId: number) {
     </div>
 
     <div v-else>
+      {{ nominationCount }} nominations
       <ul>
         <li v-for="nomination in state.data" :key="nomination.movieId">
           {{ nomination.movie.title }}
           <span v-if="nomination.nominee">({{ nomination.nominee }})</span>
           <span v-if="nomination.won"> - Winner</span>
-          <img
-            :src="getPosterImageURL(nomination.movie.posterPath)"
-            alt="Poster"
+          <PosterImage :path="nomination.movie.posterPath" />
+          <ProfileImage
+            v-if="nomination.nominee"
+            :path="nomination.nominee.profileImagePath || ''"
           />
-          <img
-            v-if="nomination.nominee?.profileImagePath"
-            :src="getProfileImageURL(nomination.nominee.profileImagePath)"
-          />
+
           <button @click="markAsWinner(nomination.id)">Mark as winner</button>
           <button @click="deleteNomination(nomination.id)">Delete</button>
         </li>

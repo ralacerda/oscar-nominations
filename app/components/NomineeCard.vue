@@ -14,54 +14,18 @@ defineProps<{
 </script>
 
 <template>
-  <div class="card">
-    <div class="poster">
+  <BasicCard>
+    <template #poster>
       <ProfileImage v-if="profileImagePath" :path="profileImagePath" />
-    </div>
-
-    <div class="info">
-      <h2 class="title">
-        {{ name }}
-      </h2>
-      <div class="small-title">
-        {{ movie.title }}
-        <template v-if="movie.title !== movie.originalTitle"
-          >({{ movie.originalTitle }})</template
-        >
-      </div>
-    </div>
-  </div>
+    </template>
+    <template #title>
+      {{ name }}
+    </template>
+    <template v-if="won" #small-title>
+      {{ movie.title }}
+      <template v-if="movie.title !== movie.originalTitle"
+        >({{ movie.originalTitle }})</template
+      >
+    </template>
+  </BasicCard>
 </template>
-
-<style lang="scss" scoped>
-.card {
-  margin: 20px;
-  padding: 20px;
-  border-radius: 12px;
-  background: var(--neutral-9);
-  box-shadow: 0 0 0 0.0625rem rgba(0, 0, 0, 0.015);
-
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: 1fr auto;
-  gap: 26px;
-}
-
-.title {
-  font-size: 2rem;
-  margin: 0;
-}
-
-.small-title {
-  font-size: 1.25rem;
-  color: var(--neutral-5);
-}
-
-.poster {
-  grid-row: span 2;
-
-  img {
-    border-radius: 6px;
-  }
-}
-</style>

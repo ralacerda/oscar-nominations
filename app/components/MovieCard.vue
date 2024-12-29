@@ -22,18 +22,17 @@ const nominationsWon = computed(() =>
 </script>
 
 <template>
-  <div class="card">
-    <div class="poster">
+  <BasicCard>
+    <template #poster>
       <PosterImage :path="posterPath" />
-    </div>
+    </template>
+    <template #title>
+      <NuxtLink :to="`/movie/${id}`">{{ title }}</NuxtLink>
+    </template>
+    <template v-if="title !== originalTitle" #small-title>
+      {{ originalTitle }}
+    </template>
     <div class="info">
-      <h2 class="title">
-        <NuxtLink :to="`/movie/${id}`">{{ title }}</NuxtLink>
-      </h2>
-      <div v-if="title !== originalTitle" class="small-title">
-        {{ originalTitle }}
-      </div>
-
       <div class="runtime-genres">
         <span class="runtime">{{ runtime }} min</span>-
         <ul class="genres">
@@ -69,41 +68,10 @@ const nominationsWon = computed(() =>
         </ul>
       </div>
     </div>
-  </div>
+  </BasicCard>
 </template>
 
 <style lang="scss" scoped>
-.card {
-  margin: 20px;
-  padding: 20px;
-  border-radius: 12px;
-  background: var(--neutral-9);
-  box-shadow: 0 0 0 0.0625rem rgba(0, 0, 0, 0.015);
-
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: 1fr auto;
-  gap: 26px;
-}
-
-.title {
-  font-size: 2rem;
-  margin: 0;
-}
-
-.small-title {
-  font-size: 1.25rem;
-  color: var(--neutral-5);
-}
-
-.poster {
-  grid-row: span 2;
-
-  img {
-    border-radius: 6px;
-  }
-}
-
 .runtime-genres {
   display: flex;
   gap: 0.25rem;

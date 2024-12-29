@@ -93,6 +93,7 @@ const nominationsWon = computed(() =>
   font-size: 1rem;
   color: var(--neutral-4);
   overflow: hidden;
+  max-width: 80ch;
 }
 
 .nominations {

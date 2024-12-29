@@ -60,6 +60,7 @@ const nomineeAward = computed(() => {
 <style lang="scss" scoped>
 .nominee-grid {
   display: grid;
+  gap: 16px;
   grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
 }
 </style>

@@ -19,7 +19,6 @@ const { size = "full" } = defineProps<{
 
 <style lang="scss" scoped>
 .card {
-  margin: 20px;
   padding: 20px;
   border-radius: 12px;
   background: var(--neutral-9);

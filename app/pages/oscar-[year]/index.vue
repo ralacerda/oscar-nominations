@@ -23,3 +23,9 @@ const { state } = useQuery({
     </div>
   </main>
 </template>
+
+<style lang="scss" scoped>
+li + li {
+  margin-top: 2rem;
+}
+</style>

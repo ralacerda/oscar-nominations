@@ -14,14 +14,14 @@ defineProps<{
 </script>
 
 <template>
-  <BasicCard>
+  <BasicCard size="compact">
     <template #poster>
       <ProfileImage v-if="profileImagePath" :path="profileImagePath" />
     </template>
     <template #title>
       {{ name }}
     </template>
-    <template v-if="won" #small-title>
+    <template #small-title>
       {{ movie.title }}
       <template v-if="movie.title !== movie.originalTitle"
         >({{ movie.originalTitle }})</template

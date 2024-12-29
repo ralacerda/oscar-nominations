@@ -1,5 +1,11 @@
+<script setup lang="ts">
+const { size = "full" } = defineProps<{
+  size?: "full" | "compact";
+}>();
+</script>
+
 <template>
-  <div class="card">
+  <div class="card" :data-size="size">
     <div class="poster">
       <slot name="poster" />
     </div>
@@ -27,7 +33,11 @@
 
 .title {
   font-size: 2rem;
-  margin: 0;
+  margin-bottom: 0.5rem;
+
+  [data-size="compact"] & {
+    font-size: 1.5rem;
+  }
 }
 
 .poster {
@@ -41,5 +51,9 @@
 .small-title {
   font-size: 1.25rem;
   color: var(--neutral-5);
+
+  [data-size="compact"] & {
+    font-size: 1rem;
+  }
 }
 </style>

@@ -5,14 +5,13 @@ type Provider = {
   display_priority: number;
 };
 
+export type TMDbProvider = {
+  results: Record<string, Providers>;
+};
+
 export type Providers = {
-  results: Record<
-    string,
-    {
-      link: string;
-      flatrate: Provider[];
-      rent: Provider[];
-      buy: Provider[];
-    }
-  >;
+  link: string;
+  flatrate: Provider[];
+  rent: Provider[];
+  buy: Provider[];
 };

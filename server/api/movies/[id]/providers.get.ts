@@ -13,7 +13,7 @@ export default cachedEventHandler(
     const key = useRuntimeConfig(event).tmdbAccessToken;
     const client = createTMDbClient(key);
 
-    const { results } = await client<Providers>(`${id}/watch/providers`);
+    const { results } = await client<TMDbProvider>(`${id}/watch/providers`);
 
     if ("BR" in results) {
       return results.BR;

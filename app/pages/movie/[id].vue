@@ -3,13 +3,43 @@ import PosterImage from "@/components/Images/PosterImage.vue";
 
 const route = useRoute();
 
-const { data: movie, error } = useFetch(
-  `/api/movies/${route.params.id as string}`,
-);
+const { data: movie } = useFetch(`/api/movies/${route.params.id as string}`);
 
 const { data: providers } = useFetch(
   `/api/movies/${route.params.id as string}/providers`,
 );
+
+const namedCrew = computed(() => {
+  const crewSet = new Set<string>();
+
+  movie.value?.crew.forEach((crew) => {
+    crewSet.add(crew.person.name);
+  });
+
+  return Array.from(crewSet).map((name) => {
+    const crew = movie.value?.crew.find((crew) => crew.person.name === name);
+
+    if (!crew) throw new Error("Crew not found");
+
+    return {
+      id: crew.person.id,
+      name: crew.person.name,
+      jobs: movie.value?.crew
+        .filter((c) => c.person.name === name)
+        .map((c) => jobsTranslations[c.job])
+        .join(", "),
+      profileImagePath: crew.person.profileImagePath,
+    };
+  });
+});
+
+const nominations = computed(() => {
+  return movie.value?.nominations.map((nomination) => ({
+    won: nomination.won,
+    award: { title: nomination.award.title, id: nomination.award.id },
+    nominee: nomination.nominee,
+  }));
+});
 </script>
 
 <template>
@@ -22,14 +52,46 @@ const { data: providers } = useFetch(
       />
     </div>
     <main>
-      {{ error }}
       <div v-if="movie" class="card">
         <PosterImage :path="movie.posterPath" />
-        <ul>
-          <li v-for="crew in movie.crew" :key="crew.id">
-            {{ crew.personId }} - {{ crew.job }}
-          </li>
-        </ul>
+        <div class="info">
+          <h1 class="title">{{ movie.title }}</h1>
+          <template v-if="movie.title !== movie.originalTitle">{{
+            movie.originalTitle
+          }}</template>
+          <div class="runtime-genres">
+            <span class="runtime">{{ movie.runtime }} min</span>-
+            <ul class="genres">
+              <li v-for="genre in movie.genres.split(',')" :key="genre">
+                {{ genre }}
+              </li>
+            </ul>
+          </div>
+          <p class="overview">{{ movie.overview }}</p>
+          <NominationList v-if="nominations" :nominations />
+          <div class="crew">
+            <ul>
+              <li v-for="crew in namedCrew" :key="crew.id">
+                <CrewCastProfile
+                  :name="crew.name"
+                  :jobs="crew.jobs!"
+                  :profile-image-path="crew.profileImagePath || ''"
+                />
+              </li>
+            </ul>
+          </div>
+          <div class="crew">
+            <ul>
+              <li v-for="castMember in movie.cast" :key="castMember.id">
+                <CrewCastProfile
+                  :name="castMember.person.name"
+                  :jobs="castMember.character"
+                  :profile-image-path="castMember.person.profileImagePath || ''"
+                />
+              </li>
+            </ul>
+          </div>
+        </div>
         <ProvidersList v-if="providers" v-bind="providers" />
       </div>
     </main>
@@ -48,7 +110,7 @@ const { data: providers } = useFetch(
 
 main {
   display: grid;
-  height: 100vh;
+  min-height: 100vh;
   align-items: center;
 }
 
@@ -60,7 +122,48 @@ main {
 
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: auto 1fr;
   gap: 26px;
+}
+
+.runtime-genres {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 0.75rem;
+}
+
+.runtime {
+  color: var(--neutral-6);
+}
+
+.genres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+.overview {
+  margin-top: 0.25rem;
+  font-size: 1rem;
+  color: var(--neutral-4);
+  overflow: hidden;
+  max-width: 80ch;
+}
+
+.crew {
+  margin-top: 1.5rem;
+
+  ul {
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+.info {
+  grid-row: span 2;
 }
 </style>

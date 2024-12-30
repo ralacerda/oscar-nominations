@@ -4,8 +4,8 @@ const { size = "medium" } = defineProps<{
   path: string;
 }>();
 
-const height = size === "small" ? 68 : 278;
-const width = size === "small" ? 45 : 185;
+const height = computed(() => (size === "small" ? 68 : 278));
+const width = computed(() => (size === "small" ? 45 : 185));
 </script>
 
 <template>

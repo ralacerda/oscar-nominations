@@ -23,6 +23,6 @@ useHead({
 .oscar-grid {
   display: grid;
   place-items: center;
-  min-height: 100lvh;
+  height: 100%;
 }
 </style>

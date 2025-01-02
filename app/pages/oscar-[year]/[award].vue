@@ -25,10 +25,13 @@ const nomineeAward = computed(() => {
 <template>
   <main>
     <PageTitle>
-      {{ awardTitles[$route.params.award as AwardId] }} -
-      {{ $route.params.year }}
+      {{ awardTitles[$route.params.award as AwardId] }}
+      <template #subtitle
+        ><NuxtLink :to="`/oscar-${$route.params.year}`"
+          >Oscar {{ $route.params.year }}</NuxtLink
+        ></template
+      >
     </PageTitle>
-    <NuxtLink :to="`/oscar-${route.params.year}`">Go Back</NuxtLink>
     <ul v-if="nomineeAward" class="nominee-grid">
       <li v-for="nomination in state.data" :key="nomination.id">
         <NomineeCard

@@ -13,6 +13,8 @@ const { state } = useQuery({
   ],
   query: () =>
     $fetch(`/api/nominations/${route.params.year}/${route.params.award}`),
+  refetchOnMount: false,
+  refetchOnWindowFocus: false,
 });
 
 const nomineeAward = computed(() => {

@@ -8,6 +8,8 @@ useHead({
 const { state } = useQuery({
   key: () => ["top-movies", route.params.year as string],
   query: () => $fetch(`/api/nominations/${route.params.year}`),
+  refetchOnMount: false,
+  refetchOnWindowFocus: false,
 });
 </script>
 

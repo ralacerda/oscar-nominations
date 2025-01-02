@@ -61,6 +61,6 @@ const nomineeAward = computed(() => {
 .nominee-grid {
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(450px, 100%), 1fr));
 }
 </style>

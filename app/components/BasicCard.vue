@@ -31,6 +31,15 @@ const { size = "full" } = defineProps<{
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr auto;
   gap: 26px;
+
+  @media screen and (max-width: 720px) {
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+  }
+}
+
+.info {
+  max-width: fit-content;
 }
 
 .title {

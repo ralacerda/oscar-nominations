@@ -43,11 +43,11 @@ const { size = "full" } = defineProps<{
 }
 
 .title {
-  font-size: 2rem;
+  font-size: var(--step-4);
   margin-bottom: 0.5rem;
 
   [data-size="compact"] & {
-    font-size: 1.5rem;
+    font-size: var(--step-3);
   }
 }
 
@@ -60,11 +60,11 @@ const { size = "full" } = defineProps<{
 }
 
 .small-title {
-  font-size: 1.25rem;
+  font-size: var(--step-2);
   color: var(--neutral-5);
 
   [data-size="compact"] & {
-    font-size: 1rem;
+    font-size: var(--step-1);
   }
 }
 </style>

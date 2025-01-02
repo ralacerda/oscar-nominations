@@ -55,7 +55,7 @@ const nominationsWon = computed(() =>
   display: flex;
   flex-wrap: wrap;
   gap: 0 0.5rem;
-  font-size: 1.125rem;
+  font-size: var(--step-1);
   color: var(--neutral-5);
 
   li:not(:last-child)::after {

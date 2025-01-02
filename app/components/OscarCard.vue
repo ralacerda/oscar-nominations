@@ -33,7 +33,7 @@ defineProps<{
   position: relative;
 
   h2 {
-    font-size: 2rem;
+    font-size: var(--step-3);
     margin-bottom: 20px;
     text-align: center;
 

@@ -25,7 +25,7 @@ defineProps<{
   text-align: center;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.875rem;
+  font-size: var(--step--1);
   line-height: 1;
 
   :deep(img) {
@@ -40,7 +40,7 @@ defineProps<{
     }
 
     p {
-      font-size: 1rem;
+      font-size: var(--step-0);
       color: var(--neutral-6);
       margin-top: 0.25rem;
     }

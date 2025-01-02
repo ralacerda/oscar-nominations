@@ -148,12 +148,12 @@ main {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: var(--step-5);
 }
 
 .overview {
   margin-top: 0.25rem;
-  font-size: 1rem;
+  font-size: var(--step-0);
   color: var(--neutral-4);
   overflow: hidden;
   max-width: 80ch;

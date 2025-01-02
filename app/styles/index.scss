@@ -1,4 +1,5 @@
 @use "reset.scss";
+@use "typography.scss";
 
 :root {
   --primary-0: #edf2ff;
@@ -34,6 +35,7 @@ body {
   font-family: "Inter", serif;
   background-color: var(--neutral-10);
   color: var(--primary-1);
+  font-size: var(--step-0);
 }
 
 main {

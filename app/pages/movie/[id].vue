@@ -101,7 +101,8 @@ const nominations = computed(() => {
 <style lang="scss" scoped>
 .backdrop img {
   width: 100vw;
-  height: 100%;
+  height: 100lvh;
+  overflow: hidden;
   object-fit: cover;
   position: fixed;
   z-index: -1;

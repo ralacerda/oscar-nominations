@@ -1,13 +1,16 @@
 <script setup lang="ts">
 const { size = "full" } = defineProps<{
   size?: "full" | "compact";
+  id: number | string;
 }>();
 </script>
 
 <template>
   <div class="card" :data-size="size">
     <div class="poster">
-      <slot name="poster" />
+      <NuxtLink :to="`/movie/${id}`">
+        <slot name="poster" />
+      </NuxtLink>
     </div>
     <div class="info">
       <h2 class="title"><slot name="title" /></h2>

@@ -18,7 +18,7 @@ const { nominations } = defineProps<{
 </script>
 
 <template>
-  <BasicCard>
+  <BasicCard :id>
     <template #poster>
       <PosterImage :path="posterPath" />
     </template>

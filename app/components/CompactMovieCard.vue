@@ -11,12 +11,12 @@ defineProps<{
 </script>
 
 <template>
-  <BasicCard size="compact">
+  <BasicCard :id size="compact">
     <template #poster>
       <PosterImage v-if="posterPath" :path="posterPath" size="small" />
     </template>
     <template #title>
-      {{ title }}
+      <NuxtLink :to="`/movie/${id}`">{{ title }}</NuxtLink>
     </template>
     <template v-if="title !== originalTitle" #small-title>
       {{ originalTitle }}

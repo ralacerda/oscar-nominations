@@ -14,7 +14,7 @@ defineProps<{
 </script>
 
 <template>
-  <BasicCard size="compact">
+  <BasicCard :id="movie.id" size="compact">
     <template #poster>
       <ProfileImage v-if="profileImagePath" :path="profileImagePath" />
     </template>
@@ -22,9 +22,9 @@ defineProps<{
       {{ name }}
     </template>
     <template #small-title>
-      {{ movie.title }}
-      <template v-if="movie.title !== movie.originalTitle"
-        >({{ movie.originalTitle }})</template
+      <NuxtLink :to="`/movie/${movie.id}`">{{ movie.title }}</NuxtLink>
+      <template v-if="movie.title !== movie.originalTitle">
+        ({{ movie.originalTitle }})</template
       >
     </template>
   </BasicCard>

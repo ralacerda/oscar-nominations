@@ -110,8 +110,9 @@ const nominations = computed(() => {
 
 main {
   display: grid;
-  min-height: 100vh;
+  min-height: 100lvh;
   align-items: center;
+  padding-block: 12px;
 }
 
 .card {
@@ -163,8 +164,8 @@ h1 {
 
   ul {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1.25rem;
   }
 }
 

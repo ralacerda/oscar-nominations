@@ -6,5 +6,6 @@
 h1 {
   text-align: center;
   margin-block: 35px;
+  font-size: var(--step-5);
 }
 </style>

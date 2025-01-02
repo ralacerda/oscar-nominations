@@ -124,6 +124,10 @@ main {
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
   gap: 26px;
+
+  @media screen and (max-width: 780px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .runtime-genres {
@@ -158,7 +162,8 @@ h1 {
   margin-top: 1.5rem;
 
   ul {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 1rem;
   }
 }

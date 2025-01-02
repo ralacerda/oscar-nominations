@@ -24,8 +24,9 @@ defineProps<{
   flex-direction: column;
   text-align: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   font-size: 0.875rem;
+  line-height: 1;
 
   :deep(img) {
     width: 120px;
@@ -41,6 +42,7 @@ defineProps<{
     p {
       font-size: 1rem;
       color: var(--neutral-6);
+      margin-top: 0.25rem;
     }
   }
 }

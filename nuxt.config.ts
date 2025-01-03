@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "nuxt-auth-utils",
     "@nuxt/fonts",
+    "@nuxt/icon",
   ],
   devtools: { enabled: true },
 

@@ -6,7 +6,6 @@ const { user, clear } = useUserSession();
   <SimpleButton v-if="!user" href="/auth/google">Login</SimpleButton>
   <div v-else class="user-menu">
     <span>{{ user.name }}</span>
-    <img :src="user.picture" alt="User picture" height="20" widht="20" />
     <SimpleButton @click="clear">Logout</SimpleButton>
   </div>
 </template>

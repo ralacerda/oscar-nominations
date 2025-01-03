@@ -1,5 +1,16 @@
+import { users } from "~~/database/schema/user";
+
 export default defineOAuthGoogleEventHandler({
   async onSuccess(event, { user }) {
+    await db
+      .insert(users)
+      .values({
+        name: user.name,
+        picture: user.picture,
+        email: user.email,
+      })
+      .onConflictDoNothing();
+
     await setUserSession(event, {
       user,
     });

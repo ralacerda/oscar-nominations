@@ -105,8 +105,9 @@ const nominations = computed(() => {
   overflow: hidden;
   object-fit: cover;
   position: fixed;
+  inset: 0;
   z-index: -1;
-  filter: blur(10px) saturate(70%) brightness(0.7);
+  filter: blur(10px) saturate(70%) brightness(0.5);
 }
 
 main {

@@ -1,11 +1,17 @@
+<script setup lang="ts">
+defineProps<{
+  href?: string;
+}>();
+</script>
+
 <template>
-  <button class="simple-button">
+  <component :is="href ? 'a' : 'button'" class="simple-button" :href>
     <slot />
-  </button>
+  </component>
 </template>
 
 <style lang="scss" scoped>
-button {
+.simple-button {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.25rem;
@@ -18,6 +24,7 @@ button {
 
   &:hover {
     background: var(--primary-8);
+    text-decoration: none;
   }
 
   &:focus {

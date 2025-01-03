@@ -1,7 +1,7 @@
 <template>
   <nav>
     <header><NuxtLink to="/">Nomações Oscar</NuxtLink></header>
-    <SimpleButton>Login</SimpleButton>
+    <NavBarUser />
   </nav>
 </template>
 

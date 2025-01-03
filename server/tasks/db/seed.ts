@@ -1,4 +1,4 @@
-import { awards, oscars } from "~~/database/schema";
+import { awards, oscars } from "~~/database/schema/movies";
 
 export default defineTask({
   meta: {

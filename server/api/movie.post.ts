@@ -1,4 +1,9 @@
-import { castCredits, crewCredits, movies, people } from "~~/database/schema";
+import {
+  castCredits,
+  crewCredits,
+  movies,
+  people,
+} from "~~/database/schema/movies";
 
 export default eventHandler(
   async (event): Promise<APIResponse<{ id: number }>> => {

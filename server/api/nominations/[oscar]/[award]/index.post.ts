@@ -1,5 +1,5 @@
 import * as v from "valibot";
-import { nominations } from "~~/database/schema";
+import { nominations } from "~~/database/schema/movies";
 
 const MovieScheme = v.object({
   id: v.number(),

@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import * as v from "valibot";
-import { nominations } from "~~/database/schema";
+import { nominations } from "~~/database/schema/movies";
 
 const NominationDeleteParams = v.object({
   id: v.pipe(v.string(), v.transform(Number)),

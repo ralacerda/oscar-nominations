@@ -67,6 +67,7 @@ const nominations = computed(() => {
               </li>
             </ul>
           </div>
+          <StatusRadioButtons />
           <p class="overview">{{ movie.overview }}</p>
           <NominationList v-if="nominations" :nominations />
           <div class="crew">

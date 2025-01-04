@@ -1,40 +1,11 @@
 @use "reset.scss";
 @use "typography.scss";
-
-:root {
-  --primary-0: #edf2ff;
-  --primary-1: #dbe4ff;
-  --primary-2: #bac8ff;
-  --primary-3: #91a7ff;
-  --primary-4: #748ffc;
-  --primary-5: #5c7cfa;
-  --primary-6: #4c6ef5;
-  --primary-7: #4263eb;
-  --primary-8: #3b5bdb;
-  --primary-9: #364fc7;
-  --primary-10: #2f44ad;
-  --primary-11: #283a94;
-  --primary-12: #21307a;
-
-  --neutral-0: #f8f9fa;
-  --neutral-1: #f1f3f5;
-  --neutral-2: #e9ecef;
-  --neutral-3: #dee2e6;
-  --neutral-4: #ced4da;
-  --neutral-5: #adb5bd;
-  --neutral-6: #868e96;
-  --neutral-7: #495057;
-  --neutral-8: #343a40;
-  --neutral-9: #212529;
-  --neutral-10: #16191d;
-  --neutral-11: #0d0f12;
-  --neutral-12: #030507;
-}
+@use "colors.scss";
 
 body {
   font-family: "Inter", serif;
   background-color: var(--neutral-10);
-  color: var(--primary-1);
+  color: var(--neutral-1);
   font-size: var(--step-0);
 }
 

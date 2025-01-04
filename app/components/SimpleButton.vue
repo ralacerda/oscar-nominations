@@ -15,7 +15,7 @@ defineProps<{
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.25rem;
-  background: var(--primary-9);
+  background: var(--blue-9);
   color: var(--neutral-1);
   font-size: var(--step-0);
   cursor: pointer;
@@ -23,7 +23,7 @@ defineProps<{
   box-shadow: 0 0 0 0.0625rem rgba(0, 0, 0, 0.015);
 
   &:hover {
-    background: var(--primary-8);
+    background: var(--blue-8);
     text-decoration: none;
   }
 
@@ -32,11 +32,11 @@ defineProps<{
   }
 
   &:focus-visible {
-    outline: 3px solid var(--primary-4);
+    outline: 3px solid var(--blue-4);
   }
 
   &:active {
-    background: var(--primary-11);
+    background: var(--blue-11);
   }
 }
 </style>

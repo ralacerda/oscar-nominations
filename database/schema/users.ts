@@ -20,7 +20,7 @@ export const users = sqliteTable(
   },
 );
 
-export const movieStatus = sqliteTable("movie_status", {
+export const watchlist = sqliteTable("watchlist", {
   id: int().primaryKey(),
   userId: int()
     .notNull()
@@ -28,20 +28,15 @@ export const movieStatus = sqliteTable("movie_status", {
   movieId: int()
     .notNull()
     .references(() => movies.id),
-  status: text({ enum: ["watchlist", "watched", "recommended"] }).notNull(),
 });
 
-export const movieStatusRelation = relations(movieStatus, ({ one }) => ({
+export const watchlistRelation = relations(watchlist, ({ one }) => ({
   user: one(users, {
-    fields: [movieStatus.userId],
+    fields: [watchlist.userId],
     references: [users.id],
   }),
   movie: one(movies, {
-    fields: [movieStatus.movieId],
+    fields: [watchlist.movieId],
     references: [movies.id],
   }),
-}));
-
-export const userRelation = relations(users, ({ many }) => ({
-  movieStatus: many(movieStatus),
 }));

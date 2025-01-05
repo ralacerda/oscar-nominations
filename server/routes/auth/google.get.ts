@@ -1,4 +1,4 @@
-import { users } from "~~/database/schema/user";
+import { users } from "~~/database/schema/users";
 
 export default defineOAuthGoogleEventHandler({
   async onSuccess(event, { user }) {

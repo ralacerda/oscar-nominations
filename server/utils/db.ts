@@ -1,7 +1,11 @@
 import { drizzle } from "drizzle-orm/libsql";
-import * as schema from "~~/database/schema/movies";
+import * as moviesSchema from "~~/database/schema/movies";
+import * as usersSchema from "~~/database/schema/users";
 
 export const db = drizzle("file:./database/local.db", {
-  schema,
+  schema: {
+    ...moviesSchema,
+    ...usersSchema,
+  },
   casing: "snake_case",
 });

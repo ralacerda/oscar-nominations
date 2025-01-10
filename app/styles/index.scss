@@ -2,6 +2,10 @@
 @use "typography.scss";
 @use "colors.scss";
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   font-family: "Inter", serif;
   background-color: var(--neutral-10);

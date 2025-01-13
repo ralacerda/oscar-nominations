@@ -1,7 +1,7 @@
 <template>
   <nav>
     <header><NuxtLink to="/">Nomações Oscar</NuxtLink></header>
-    <NavBarUser />
+    <!-- <NavBarUser /> -->
   </nav>
 </template>
 

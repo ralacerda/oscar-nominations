@@ -3,7 +3,7 @@ import { nominations } from "~~/database/schema/movies";
 
 const MovieScheme = v.object({
   id: v.union([v.string(), v.number()]),
-  nominee: v.optional(v.number()),
+  nominee: v.union([v.string(), v.number()]),
   won: v.optional(v.boolean()),
   imdbCode: v.optional(v.boolean()),
 });
@@ -28,9 +28,15 @@ export default eventHandler(async (event) => {
 
   for (const movie of movies) {
     if (movie.imdbCode) {
-      const id = await $fetch(`/api/imdb/${movie.id}`);
+      const id = await $fetch(`/api/imdb/movie/${movie.id}`);
 
       movie.id = id;
+
+      if (movie.nominee) {
+        const nominee = await $fetch(`/api/imdb/person/${movie.nominee}`);
+
+        movie.nominee = nominee;
+      }
     }
 
     await $fetch("/api/movie/", {
@@ -44,7 +50,10 @@ export default eventHandler(async (event) => {
       awardId: award,
       movieId: typeof movie.id === "number" ? movie.id : parseInt(movie.id),
       oscarId: oscar,
-      nomineeId: movie.nominee,
+      nomineeId:
+        typeof movie.nominee === "number"
+          ? movie.nominee
+          : parseInt(movie.nominee),
       won: movie.won,
     });
 

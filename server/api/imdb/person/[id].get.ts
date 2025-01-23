@@ -1,0 +1,41 @@
+import * as v from "valibot";
+
+const paramsScheme = v.object({
+  id: v.string(),
+});
+
+type TMDBFindResponse = {
+  person_results: {
+    id: number;
+  }[];
+};
+
+export default cachedEventHandler(
+  async (event) => {
+    const { id } = await getValidatedRouterParams(event, (data) =>
+      v.parse(paramsScheme, data),
+    );
+
+    const key = useRuntimeConfig(event).tmdbAccessToken;
+    const client = createTMDbClient(key);
+
+    const result = await client<TMDBFindResponse>(`find/${id}`, {
+      query: {
+        external_source: "imdb_id",
+      },
+    });
+
+    if (result.person_results.length > 0) {
+      return result.person_results[0].id;
+    }
+
+    throw createError({
+      statusCode: 404,
+      message: "Movie not found",
+    });
+  },
+  {
+    getKey: (event) => event.path,
+    maxAge: 60 * 60 * 24,
+  },
+);

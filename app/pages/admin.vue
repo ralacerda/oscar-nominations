@@ -28,7 +28,12 @@ const { state, refetch } = useQuery({
     ),
 });
 
-async function submit(movieId: number, won: boolean, nominee?: number) {
+async function submit(
+  movieId: number,
+  won: boolean,
+  nominee?: number,
+  imdbCode?: boolean,
+) {
   await $fetch(
     `/api/nominations/${currentOscar.value.id}/${currentAward.value.id}`,
     {
@@ -37,6 +42,7 @@ async function submit(movieId: number, won: boolean, nominee?: number) {
         id: movieId,
         nominee: nominee,
         won,
+        imdbCode,
       },
     },
   );

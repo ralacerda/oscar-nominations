@@ -24,11 +24,14 @@ export default eventHandler(
       };
     }
 
-    const result = await client<TMDBMovieWithCredits>(id.toString(), {
-      query: {
-        append_to_response: "credits",
+    const result = await client<TMDBMovieWithCredits>(
+      `movie/${id.toString()}`,
+      {
+        query: {
+          append_to_response: "credits",
+        },
       },
-    });
+    );
 
     await db
       .insert(movies)

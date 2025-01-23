@@ -4,6 +4,12 @@ const paramsScheme = v.object({
   id: v.string(),
 });
 
+type TMDBFindResponse = {
+  movie_results: {
+    id: number;
+  }[];
+};
+
 export default cachedEventHandler(
   async (event) => {
     const { id } = await getValidatedRouterParams(event, (data) =>
@@ -13,17 +19,19 @@ export default cachedEventHandler(
     const key = useRuntimeConfig(event).tmdbAccessToken;
     const client = createTMDbClient(key);
 
-    const { results } = await client<TMDbProvider>(
-      `/movie/${id}/watch/providers`,
-    );
+    const result = await client<TMDBFindResponse>(`find/${id}`, {
+      query: {
+        external_source: "imdb_id",
+      },
+    });
 
-    if ("BR" in results) {
-      return results.BR;
+    if (result.movie_results.length > 0) {
+      return result.movie_results[0].id;
     }
 
     throw createError({
       statusCode: 404,
-      message: "No providers found",
+      message: "Movie not found",
     });
   },
   {

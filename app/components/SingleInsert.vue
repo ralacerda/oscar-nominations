@@ -4,11 +4,17 @@ const { requiresNominee } = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  submit: [movieId: number, won: boolean, nomineeId?: number];
+  submit: [
+    movieId: number,
+    won: boolean,
+    nomineeId?: number,
+    imdbCode?: boolean,
+  ];
 }>();
 
 const currentTitle = ref<number>();
 const currentNominee = ref<number>();
+const imdbCode = ref<boolean>();
 const won = ref(false);
 
 function submit() {
@@ -16,7 +22,13 @@ function submit() {
     return;
   }
 
-  emit("submit", currentTitle.value, won.value, currentNominee.value);
+  emit(
+    "submit",
+    currentTitle.value,
+    won.value,
+    currentNominee.value,
+    imdbCode.value,
+  );
 }
 </script>
 
@@ -24,7 +36,11 @@ function submit() {
   <form @submit.prevent="submit">
     <input v-model.number="currentTitle" />
     <input v-if="requiresNominee" v-model.number="currentNominee" />
-    <input v-model="won" type="checkbox" />
+    <label for="won">Won</label>
+    <input id="won" v-model="won" type="checkbox" />
+    <label for="imdbCode">IMDb Code</label>
+    <input id="imdbCode" v-model="imdbCode" type="checkbox" />
+
     <button type="submit">Submit</button>
   </form>
 </template>

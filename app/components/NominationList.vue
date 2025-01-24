@@ -4,6 +4,7 @@ const { nominations } = defineProps<{
     won: boolean;
     award: { title: string; id: string };
     nominee: { name: string } | null;
+    oscarId: number;
   }[];
 }>();
 
@@ -29,7 +30,7 @@ const nominationsWon = computed(() =>
         :key="nomination.award.title"
         :data-won="nomination.won"
       >
-        <NuxtLink :href="`/oscar-${$route.params.year}/${nomination.award.id}`">
+        <NuxtLink :href="`/oscar-${nomination.oscarId}/${nomination.award.id}`">
           {{ nomination.award.title
           }}<template v-if="nomination.nominee">
             ({{ nomination.nominee.name }})</template

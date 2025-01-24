@@ -11,6 +11,7 @@ const { nominations } = defineProps<{
   genres: Movie["genres"];
   nominations: {
     won: boolean;
+    oscarId: number;
     award: { title: string; id: string };
     nominee: { name: string } | null;
   }[];

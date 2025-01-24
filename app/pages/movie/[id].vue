@@ -38,6 +38,7 @@ const nominations = computed(() => {
     won: nomination.won,
     award: { title: nomination.award.title, id: nomination.award.id },
     nominee: nomination.nominee,
+    oscarId: nomination.oscarId,
   }));
 });
 </script>

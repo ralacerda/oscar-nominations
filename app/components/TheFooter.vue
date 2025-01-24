@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <small> &copy; {{ new Date().getFullYear() }} Nomações Oscar </small>
+    <small> &copy; {{ new Date().getFullYear() }} Nomeações Oscar </small>
   </footer>
 </template>
 

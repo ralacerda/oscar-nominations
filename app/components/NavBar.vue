@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <header><NuxtLink to="/">Nomações Oscar</NuxtLink></header>
+    <header><NuxtLink to="/">Nomeações Oscar</NuxtLink></header>
     <!-- <NavBarUser /> -->
   </nav>
 </template>

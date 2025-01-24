@@ -21,8 +21,12 @@ useHead({
 
 <style lang="scss" scoped>
 .oscar-grid {
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
   height: 100%;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 </style>

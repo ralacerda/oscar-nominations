@@ -29,7 +29,7 @@ const nominationsWon = computed(() =>
         :key="nomination.award.title"
         :data-won="nomination.won"
       >
-        <NuxtLink :href="`/oscar-2024/${nomination.award.id}`">
+        <NuxtLink :href="`/oscar-${$route.params.year}/${nomination.award.id}`">
           {{ nomination.award.title
           }}<template v-if="nomination.nominee">
             ({{ nomination.nominee.name }})</template

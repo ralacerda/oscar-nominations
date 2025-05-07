@@ -64,7 +64,7 @@ export default eventHandler(
 );
 
 function getMainCast(cast: TMDBMovieWithCredits["credits"]["cast"]) {
-  return cast.toSorted((a, b) => b.order - a.order);
+  return cast.toSorted((a, b) => a.order - b.order).slice(0, 5);
 }
 
 function filterCrewJobs(crew: TMDBMovieWithCredits["credits"]["crew"]) {

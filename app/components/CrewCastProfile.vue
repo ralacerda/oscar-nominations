@@ -4,13 +4,13 @@ import ProfileImage from "@/components/Images/ProfileImage.vue";
 defineProps<{
   name: string;
   jobs: string;
-  profileImagePath: string;
+  profileImagePath: string | undefined;
 }>();
 </script>
 
 <template>
   <div class="crew-cast-profile">
-    <ProfileImage :path="profileImagePath || ''" />
+    <ProfileImage :path="profileImagePath" />
     <div class="info">
       <h3>{{ name }}</h3>
       <p>{{ jobs }}</p>

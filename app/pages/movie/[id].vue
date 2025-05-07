@@ -9,34 +9,10 @@ const { data: providers } = useFetch(
   `/api/movies/${route.params.id as string}/providers`,
 );
 
-const namedCrew = computed(() => {
-  const crewSet = new Set<string>();
-
-  movie.value?.crew.forEach((crew) => {
-    crewSet.add(crew.person.name);
-  });
-
-  return Array.from(crewSet).map((name) => {
-    const crew = movie.value?.crew.find((crew) => crew.person.name === name);
-
-    if (!crew) throw new Error("Crew not found");
-
-    return {
-      id: crew.person.id,
-      name: crew.person.name,
-      jobs: movie.value?.crew
-        .filter((c) => c.person.name === name)
-        .map((c) => jobsTranslations[c.job])
-        .join(", "),
-      profileImagePath: crew.person.profileImagePath,
-    };
-  });
-});
-
 const nominations = computed(() => {
   return movie.value?.nominations.map((nomination) => ({
     won: nomination.won,
-    award: { title: nomination.award.title, id: nomination.award.id },
+    award: { title: awardTitles[nomination.awardId], id: nomination.awardId },
     nominee: nomination.nominee,
     oscarId: nomination.oscarId,
   }));
@@ -63,7 +39,7 @@ const nominations = computed(() => {
           <div class="runtime-genres">
             <span class="runtime">{{ movie.runtime }} min</span>-
             <ul class="genres">
-              <li v-for="genre in movie.genres.split(',')" :key="genre">
+              <li v-for="genre in movie.genres" :key="genre">
                 {{ genre }}
               </li>
             </ul>
@@ -72,22 +48,22 @@ const nominations = computed(() => {
           <NominationList v-if="nominations" :nominations />
           <div class="crew">
             <ul>
-              <li v-for="crew in namedCrew" :key="crew.id">
+              <li v-for="crewMember in movie.crew" :key="crewMember.name">
                 <CrewCastProfile
-                  :name="crew.name"
-                  :jobs="crew.jobs!"
-                  :profile-image-path="crew.profileImagePath || ''"
+                  :name="crewMember.name"
+                  :jobs="crewMember.job"
+                  :profile-image-path="crewMember.profileImagePath"
                 />
               </li>
             </ul>
           </div>
           <div class="crew">
             <ul>
-              <li v-for="castMember in movie.cast" :key="castMember.id">
+              <li v-for="castMember in movie.cast" :key="castMember.name">
                 <CrewCastProfile
-                  :name="castMember.person.name"
+                  :name="castMember.name"
                   :jobs="castMember.character"
-                  :profile-image-path="castMember.person.profileImagePath || ''"
+                  :profile-image-path="castMember.profileImagePath"
                 />
               </li>
             </ul>

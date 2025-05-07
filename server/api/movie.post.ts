@@ -1,9 +1,5 @@
-import {
-  castCredits,
-  crewCredits,
-  movies,
-  people,
-} from "~~/database/schema/movies";
+import { movies } from "~~/database/schema/movies";
+import type { TMDBMovieWithCredits } from "~~/shared/types/tmdb";
 
 export default eventHandler(
   async (event): Promise<APIResponse<{ id: number }>> => {
@@ -36,60 +32,26 @@ export default eventHandler(
     await db
       .insert(movies)
       .values({
-        id: id,
+        id: result.id,
         backdropPath: result.backdrop_path,
         originalTitle: result.original_title,
         overview: result.overview,
         posterPath: result.poster_path,
         runtime: result.runtime,
         title: result.title,
-        genres: result.genres.map((genre) => genre.name).join(", "),
-      })
-      .onConflictDoNothing();
-
-    await db
-      .insert(people)
-      .values(
-        result.credits.cast.map((cast) => ({
-          id: cast.id,
+        genres: result.genres.map((genre) => genre.name),
+        cast: getMainCast(result.credits.cast).map((cast) => ({
           name: cast.name,
-          profileImagePath: cast.profile_path,
-        })),
-      )
-      .onConflictDoNothing();
-
-    await db
-      .insert(people)
-      .values(
-        result.credits.crew.map((crew) => ({
-          id: crew.id,
-          name: crew.name,
-          profileImagePath: crew.profile_path,
-        })),
-      )
-      .onConflictDoNothing();
-
-    await db
-      .insert(castCredits)
-      .values(
-        result.credits.cast.map((cast) => ({
-          personId: cast.id,
           character: cast.character,
           order: cast.order,
-          movieId: id,
+          profileImagePath: cast.profile_path,
         })),
-      )
-      .onConflictDoNothing();
-
-    await db
-      .insert(crewCredits)
-      .values(
-        result.credits.crew.map((crew) => ({
-          personId: crew.id,
+        crew: filterCrewJobs(result.credits.crew).map((crew) => ({
+          name: crew.name,
           job: crew.job,
-          movieId: id,
+          profileImagePath: crew.profile_path,
         })),
-      )
+      } satisfies Movie)
       .onConflictDoNothing();
 
     return {
@@ -100,3 +62,13 @@ export default eventHandler(
     };
   },
 );
+
+function getMainCast(cast: TMDBMovieWithCredits["credits"]["cast"]) {
+  return cast.toSorted((a, b) => b.order - a.order);
+}
+
+function filterCrewJobs(crew: TMDBMovieWithCredits["credits"]["crew"]) {
+  return crew.filter((crew) =>
+    ["Writer", "Director", "Book"].includes(crew.job),
+  );
+}

@@ -4,12 +4,6 @@ const paramsScheme = v.object({
   id: v.string(),
 });
 
-type TMDBFindResponse = {
-  movie_results: {
-    id: number;
-  }[];
-};
-
 export default cachedEventHandler(
   async (event) => {
     const { id } = await getValidatedRouterParams(event, (data) =>
@@ -19,7 +13,7 @@ export default cachedEventHandler(
     const key = useRuntimeConfig(event).tmdbAccessToken;
     const client = createTMDbClient(key);
 
-    const result = await client<TMDBFindResponse>(`find/${id}`, {
+    const result = await client<FindResponseMovie>(`find/${id}`, {
       query: {
         external_source: "imdb_id",
       },

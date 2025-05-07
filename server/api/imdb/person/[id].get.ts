@@ -4,12 +4,6 @@ const paramsScheme = v.object({
   id: v.string(),
 });
 
-type TMDBFindResponse = {
-  person_results: {
-    id: number;
-  }[];
-};
-
 export default cachedEventHandler(
   async (event) => {
     const { id } = await getValidatedRouterParams(event, (data) =>
@@ -19,14 +13,18 @@ export default cachedEventHandler(
     const key = useRuntimeConfig(event).tmdbAccessToken;
     const client = createTMDbClient(key);
 
-    const result = await client<TMDBFindResponse>(`find/${id}`, {
+    const result = await client<FindResponsePerson>(`find/${id}`, {
       query: {
         external_source: "imdb_id",
       },
     });
 
     if (result.person_results.length > 0) {
-      return result.person_results[0].id;
+      const person = result.person_results[0];
+      return {
+        name: person.name,
+        profile_path: person.profile_path,
+      };
     }
 
     throw createError({

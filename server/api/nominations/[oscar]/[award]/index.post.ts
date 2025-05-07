@@ -2,17 +2,16 @@ import * as v from "valibot";
 import { nominations } from "~~/database/schema/movies";
 
 const MovieScheme = v.object({
-  id: v.union([v.string(), v.number()]),
-  nominee: v.union([v.string(), v.number()]),
+  nomineeImdbCode: v.optional(v.string()),
   won: v.optional(v.boolean()),
-  imdbCode: v.optional(v.boolean()),
+  imdbCode: v.string(),
 });
 
 const NominationBodyScheme = v.union([v.array(MovieScheme), MovieScheme]);
 
 const NominationParams = v.object({
   oscar: v.pipe(v.string(), v.transform(Number)),
-  award: v.pipe(v.string(), v.trim(), v.nonEmpty()),
+  award: v.picklist(awardsKeys),
 });
 
 export default eventHandler(async (event) => {
@@ -27,33 +26,24 @@ export default eventHandler(async (event) => {
   );
 
   for (const movie of movies) {
-    if (movie.imdbCode) {
-      const id = await $fetch(`/api/imdb/movie/${movie.id}`);
+    const id = await $fetch(`/api/imdb/movie/${movie.imdbCode}`);
 
-      movie.id = id;
-
-      if (movie.nominee) {
-        const nominee = await $fetch(`/api/imdb/person/${movie.nominee}`);
-
-        movie.nominee = nominee;
-      }
-    }
+    const nominee = movie.nomineeImdbCode
+      ? await $fetch(`/api/imdb/person/${movie.nomineeImdbCode}`)
+      : undefined;
 
     await $fetch("/api/movie/", {
       method: "POST",
       body: {
-        id: movie.id,
+        id,
       },
     });
 
     await db.insert(nominations).values({
-      awardId: award,
-      movieId: typeof movie.id === "number" ? movie.id : parseInt(movie.id),
+      movieId: id,
       oscarId: oscar,
-      nomineeId:
-        typeof movie.nominee === "number"
-          ? movie.nominee
-          : parseInt(movie.nominee),
+      awardId: award,
+      nominee: nominee,
       won: movie.won,
     });
 

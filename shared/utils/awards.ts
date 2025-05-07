@@ -64,3 +64,7 @@ export const awardsInfo = {
   },
   "best-costume-design": { title: "Melhor figurino", requiresNominee: false },
 } as const;
+
+export const awardsKeys = Object.keys(
+  awardsInfo,
+) as (keyof typeof awardsInfo)[];

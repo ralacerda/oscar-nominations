@@ -22,13 +22,7 @@ export default eventHandler(async (event) => {
     with: {
       nominations: {
         where: (nominations, { eq }) => eq(nominations.oscarId, oscar),
-        columns: { won: true, oscarId: true },
-        with: {
-          nominee: { columns: { name: true } },
-          award: {
-            columns: { id: true, title: true },
-          },
-        },
+        columns: { won: true, oscarId: true, nominee: true, awardId: true },
       },
     },
     extras: {

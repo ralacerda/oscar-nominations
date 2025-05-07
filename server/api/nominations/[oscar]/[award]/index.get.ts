@@ -1,7 +1,7 @@
 import * as v from "valibot";
 
 const NominationParams = v.object({
-  award: v.pipe(v.string(), v.trim(), v.nonEmpty()),
+  award: v.picklist(awardsKeys),
   oscar: v.pipe(v.string(), v.transform(Number)),
 });
 
@@ -14,17 +14,7 @@ export default eventHandler(async (event) => {
     where: (nominations, { eq, and }) =>
       and(eq(nominations.oscarId, oscar), eq(nominations.awardId, award)),
     with: {
-      nominee: true,
-      movie: {
-        with: {
-          nominations: {
-            with: {
-              award: true,
-              nominee: true,
-            },
-          },
-        },
-      },
+      movie: true,
     },
   });
 });

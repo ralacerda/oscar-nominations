@@ -1,12 +1,19 @@
 import { relations } from "drizzle-orm";
 import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-// People and Movies (Core tables)
-export const people = sqliteTable("people_table", {
-  id: int().primaryKey(),
-  name: text().notNull(),
-  profileImagePath: text(),
-});
+export interface Person {
+  name: string;
+  profileImagePath?: string;
+}
+
+export interface CastMember extends Person {
+  character: string;
+  order: number;
+}
+
+export interface CrewMember extends Person {
+  job: string;
+}
 
 export const movies = sqliteTable("movies_table", {
   id: int().primaryKey(),
@@ -16,59 +23,13 @@ export const movies = sqliteTable("movies_table", {
   posterPath: text().notNull(),
   runtime: int().notNull(),
   title: text().notNull(),
-  genres: text().notNull(),
+  genres: text({ mode: "json" }).$type<string[]>().notNull(),
+  cast: text({ mode: "json" }).$type<CastMember[]>().notNull(),
+  crew: text({ mode: "json" }).$type<CrewMember[]>().notNull(),
 });
 
 export const moviesRelation = relations(movies, ({ many }) => ({
   nominations: many(nominations),
-  cast: many(castCredits),
-  crew: many(crewCredits),
-}));
-
-// Credits
-export const castCredits = sqliteTable("cast_credits", {
-  id: int().primaryKey(),
-  personId: int()
-    .notNull()
-    .references(() => people.id),
-  movieId: int()
-    .notNull()
-    .references(() => movies.id),
-  character: text().notNull(),
-  order: int().notNull(),
-});
-
-export const castCreditsRelation = relations(castCredits, ({ one }) => ({
-  person: one(people, {
-    fields: [castCredits.personId],
-    references: [people.id],
-  }),
-  movie: one(movies, {
-    fields: [castCredits.movieId],
-    references: [movies.id],
-  }),
-}));
-
-export const crewCredits = sqliteTable("crew_credits", {
-  id: int().primaryKey(),
-  personId: int()
-    .notNull()
-    .references(() => people.id),
-  movieId: int()
-    .notNull()
-    .references(() => movies.id),
-  job: text().notNull(),
-});
-
-export const crewCreditsRelation = relations(crewCredits, ({ one }) => ({
-  person: one(people, {
-    fields: [crewCredits.personId],
-    references: [people.id],
-  }),
-  movie: one(movies, {
-    fields: [crewCredits.movieId],
-    references: [movies.id],
-  }),
 }));
 
 // Awards and Nominations
@@ -77,25 +38,16 @@ export const oscars = sqliteTable("oscars_table", {
   done: int({ mode: "boolean" }).notNull().default(false),
 });
 
-export const awards = sqliteTable("awards_table", {
-  id: text().primaryKey(),
-  title: text().notNull(),
-  short: int({ mode: "boolean" }).notNull().default(false),
-  requiresNominee: int({ mode: "boolean" }).notNull().default(false),
-});
-
 export const nominations = sqliteTable("nominations_table", {
   id: int().primaryKey(),
   oscarId: int()
     .notNull()
     .references(() => oscars.id),
-  awardId: text()
-    .notNull()
-    .references(() => awards.id),
+  awardId: text({ mode: "json" }).$type<keyof typeof awardsInfo>().notNull(),
   movieId: int()
     .notNull()
     .references(() => movies.id),
-  nomineeId: int(),
+  nominee: text({ mode: "json" }).$type<Person>(),
   won: int({ mode: "boolean" }).notNull().default(false),
 });
 
@@ -103,13 +55,5 @@ export const nominationsRelations = relations(nominations, ({ one }) => ({
   movie: one(movies, {
     fields: [nominations.movieId],
     references: [movies.id],
-  }),
-  award: one(awards, {
-    fields: [nominations.awardId],
-    references: [awards.id],
-  }),
-  nominee: one(people, {
-    fields: [nominations.nomineeId],
-    references: [people.id],
   }),
 }));

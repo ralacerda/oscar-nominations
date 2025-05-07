@@ -8,7 +8,6 @@ export interface Person {
 
 export interface CastMember extends Person {
   character: string;
-  order: number;
 }
 
 export interface CrewMember extends Person {

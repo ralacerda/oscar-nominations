@@ -43,7 +43,6 @@ export default eventHandler(
         cast: getMainCast(result.credits.cast).map((cast) => ({
           name: cast.name,
           character: cast.character,
-          order: cast.order,
           profileImagePath: cast.profile_path,
         })),
         crew: filterCrewJobs(result.credits.crew).map((crew) => ({

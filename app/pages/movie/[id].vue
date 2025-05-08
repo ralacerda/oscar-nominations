@@ -17,6 +17,26 @@ const nominations = computed(() => {
     oscarId: nomination.oscarId,
   }));
 });
+
+const crewMembers = computed(() => {
+  return new Set(movie.value?.crew.map((member) => member.name));
+});
+
+function getJobs(name: string, crewMembers: { name: string; job: string }[]) {
+  return crewMembers
+    .filter((member) => member.name === name)
+    .map(
+      (member) => jobsTranslations[member.job as keyof typeof jobsTranslations],
+    )
+    .join(", ");
+}
+
+function findProfilePicture(
+  name: string,
+  crewMembers: { name: string; job: string; profileImagePath?: string }[],
+) {
+  return crewMembers.find((member) => member.name === name)?.profileImagePath;
+}
 </script>
 
 <template>
@@ -48,11 +68,13 @@ const nominations = computed(() => {
           <NominationList v-if="nominations" :nominations />
           <div class="crew">
             <ul>
-              <li v-for="crewMember in movie.crew" :key="crewMember.name">
+              <li v-for="crewMember in crewMembers" :key="crewMember">
                 <CrewCastProfile
-                  :name="crewMember.name"
-                  :jobs="crewMember.job"
-                  :profile-image-path="crewMember.profileImagePath"
+                  :name="crewMember"
+                  :jobs="getJobs(crewMember, movie.crew)"
+                  :profile-image-path="
+                    findProfilePicture(crewMember, movie.crew)
+                  "
                 />
               </li>
             </ul>

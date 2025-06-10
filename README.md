@@ -1,4 +1,4 @@
-# Oscar Movies Database
+# Oscar Nominations
 
 A web application for browsing and managing Oscar nominations and awards data using modern web technologies.
 

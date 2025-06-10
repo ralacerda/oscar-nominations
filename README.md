@@ -1,75 +1,54 @@
-# Nuxt 3 Minimal Starter
+# Oscar Movies Database
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A web application for browsing and managing Oscar nominations and awards data using modern web technologies.
 
 ## Setup
 
-Make sure to install the dependencies:
-
 ```bash
-# npm
-npm install
-
-# pnpm
+# Install dependencies
 pnpm install
 
-# yarn
-yarn install
+# Start development server
+pnpm dev
 
-# bun
-bun install
+# Build for production
+pnpm build
 ```
 
-## Development Server
+## Technology Stack
 
-Start the development server on `http://localhost:3000`:
+### Frontend
+- **Nuxt 3** - Vue.js framework for building server-side rendered applications
+- **Vue 3** - Progressive JavaScript framework for building user interfaces
+- **Pinia** - State management for Vue applications
+- **SCSS/Sass** - CSS preprocessor for styling components
 
-```bash
-# npm
-npm run dev
+### Backend
+- **Nuxt Server API** - Server-side API endpoints using Nuxt API routes
+- **Drizzle ORM** - TypeScript ORM for SQL databases
+- **LibSQL** - SQLite-compatible database used for storing Oscar and movie data
+- **Valibot** - Runtime type validation library for data validation
 
-# pnpm
-pnpm run dev
+### APIs and Integration
+- **TMDb API** - External movie database API integration for fetching movie and person data
 
-# yarn
-yarn dev
+### Development Tools
+- **TypeScript** - Typed JavaScript for improved developer experience
+- **ESLint** - Code linting and static analysis
+- **Prettier** - Code formatting
+- **PNPM** - Fast and disk-efficient package manager
 
-# bun
-bun run dev
-```
+## Project Structure
 
-## Production
+- `app/` - Vue components, pages, and styles
+- `database/` - Database schema definitions using Drizzle ORM
+- `server/` - API endpoints and server-side utilities
+- `shared/` - Types and utilities shared between client and server
 
-Build the application for production:
+## Features
 
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- Browse Oscar nominations and winners by year and award category
+- View detailed movie information with TMDb data integration
+- Admin interface for managing nominations and awards
+- Movie providers information (where to watch)
+- Batch and single movie data insertion capabilities

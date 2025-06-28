@@ -9,7 +9,6 @@ defineProps<{
   <img
     :src="`https://image.tmdb.org/t/p/w45${path}`"
     :alt="providerName"
-    :title="providerName"
     height="45"
     width="45"
   />

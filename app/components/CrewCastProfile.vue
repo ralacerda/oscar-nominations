@@ -12,7 +12,7 @@ defineProps<{
   <div class="crew-cast-profile">
     <ProfileImage :path="profileImagePath || ''" />
     <div class="info">
-      <h3>{{ name }}</h3>
+      <div>{{ name }}</div>
       <p>{{ jobs }}</p>
     </div>
   </div>

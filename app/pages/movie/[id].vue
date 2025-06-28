@@ -5,6 +5,10 @@ const route = useRoute();
 
 const { data: movie } = useFetch(`/api/movies/${route.params.id as string}`);
 
+useHead({
+  title: () => `${movie.value?.title || ''}`,
+});
+
 const { data: providers } = useFetch(
   `/api/movies/${route.params.id as string}/providers`,
 );

@@ -15,6 +15,15 @@ export default defineNuxtConfig({
     tmdbAccessToken: "",
   },
 
+  app: {
+    head: {
+      titleTemplate: "%s | Nomeações Oscar",
+      htmlAttrs: {
+        lang: "pt",
+      },
+    },
+  },
+
   future: {
     compatibilityVersion: 4,
   },

@@ -18,6 +18,7 @@ defineProps<{
         :key="poster"
         :path="poster"
         size="small"
+        preload
       />
     </div>
   </div>

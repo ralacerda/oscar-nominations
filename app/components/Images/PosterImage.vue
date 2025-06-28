@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { size = "medium" } = defineProps<{
   size?: "small" | "medium";
+  preload?: boolean;
   path: string;
 }>();
 
@@ -14,5 +15,6 @@ const width = size === "small" ? 154 : 342;
     :height
     :width
     alt=""
+    :fetchpriority="preload ? 'high' : 'auto'"
   />
 </template>

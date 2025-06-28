@@ -54,7 +54,7 @@ const nominations = computed(() => {
     </div>
     <main>
       <div v-if="movie" class="card">
-        <PosterImage :path="movie.posterPath" />
+        <PosterImage :path="movie.posterPath" preload />
         <div class="info">
           <h1 class="title">{{ movie.title }}</h1>
           <template v-if="movie.title !== movie.originalTitle">{{

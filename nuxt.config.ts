@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "nuxt-auth-utils",
     "@nuxt/fonts",
     "@nuxt/icon",
+    "@nuxt/scripts",
   ],
   devtools: { enabled: true },
 
@@ -30,6 +31,19 @@ export default defineNuxtConfig({
       preprocessorOptions: {
         scss: {
           api: "modern-compiler",
+        },
+      },
+    },
+  },
+
+  $production: {
+    scripts: {
+      registry: {
+        plausibleAnalytics: {
+          domain: "oscar.ralacerda.dev",
+          scriptInput: {
+            src: "https://plausible.ralacerda.dev/js/script.js",
+          },
         },
       },
     },

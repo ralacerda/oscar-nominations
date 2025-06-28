@@ -49,6 +49,7 @@ const nominations = computed(() => {
       <img
         width="1280"
         height="720"
+        alt=""
         :src="`https://image.tmdb.org/t/p/w1280${movie?.backdropPath}`"
       />
     </div>

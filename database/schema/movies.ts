@@ -4,6 +4,7 @@ import { int, sqliteTable, text } from "drizzle-orm/sqlite-core";
 export interface Person {
   name: string;
   profileImagePath?: string;
+  gender: "Not-set" | "Female" | "Male" | "Non-binary";
 }
 
 export interface CastMember extends Person {

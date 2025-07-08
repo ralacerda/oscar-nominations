@@ -62,12 +62,12 @@ export default eventHandler(
   },
 );
 
-function getMainCast(cast: TMDBMovieWithCredits["credits"]["cast"]) {
-  return cast.toSorted((a, b) => a.order - b.order).slice(0, 5);
-}
-
-function filterCrewJobs(crew: TMDBMovieWithCredits["credits"]["crew"]) {
-  return crew.filter((crew) =>
-    ["Writer", "Director", "Book"].includes(crew.job),
-  );
+// TODO: Fazer um utils só de interagir com o database
+function checkIfExists(id: number): ResultAsync<boolean, Error> {
+  return ResultAsync.fromPromise(
+    db.query.movies.findFirst({
+      where: (movies, { eq }) => eq(movies.id, id),
+    }),
+    (e) => e,
+  ).map((movie) => movie !== null);
 }

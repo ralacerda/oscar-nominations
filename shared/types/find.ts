@@ -2,6 +2,7 @@ export type FindResponsePerson = {
   person_results: {
     name: string;
     profile_path: string;
+    gender: number;
   }[];
 };
 

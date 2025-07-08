@@ -35,6 +35,7 @@ export type TMDBCredits = {
   id: number;
   cast: {
     adult: boolean;
+    gender: number;
     id: number;
     known_for_department: string;
     name: string;
@@ -48,6 +49,7 @@ export type TMDBCredits = {
   }[];
   crew: {
     adult: boolean;
+    gender: number;
     id: number;
     known_for_department: string;
     name: string;

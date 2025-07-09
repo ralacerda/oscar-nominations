@@ -1,77 +1,19 @@
-import { ok, ResultAsync } from "neverthrow";
+import { ResultAsync } from "neverthrow";
 import { movies } from "~~/database/schema/movies";
-import type { TMDBMovieWithCredits } from "~~/shared/types/tmdb";
-import type { H3Event, ValidateFunction } from "h3";
 
-export default eventHandler(
-  async (event): Promise<APIResponse<{ id: number }>> => {
-    return validateBody(event, (z) =>
-      z.object({
-        id: z.string(),
-      }),
-    ).andThen((body) => getMovie(body.id));
-
-    // const key = useRuntimeConfig(event).tmdbAccessToken;
-    // const client = createTMDbClient(key);
-
-    // const check = await db.query.movies.findFirst({
-    //   where: (movies, { eq }) => eq(movies.id, id),
-    // });
-
-    // if (check) {
-    //   return {
-    //     ok: true,
-    //     data: {
-    //       id,
-    //     },
-    //   };
-    // }
-
-    // const result = await client<TMDBMovieWithCredits>(
-    //   `movie/${id.toString()}`,
-    //   {
-    //     query: {
-    //       append_to_response: "credits",
-    //     },
-    //   },
-    // );
-
-    // await db
-    //   .insert(movies)
-    //   .values({
-    //     id: result.id,
-    //     backdropPath: result.backdrop_path,
-    //     originalTitle: result.original_title,
-    //     overview: result.overview,
-    //     posterPath: result.poster_path,
-    //     runtime: result.runtime,
-    //     title: result.title,
-    //     genres: result.genres.map((genre) => genre.name),
-    //     cast: getMainCast(result.credits.cast).map((cast) => ({
-    //       name: cast.name,
-    //       character: cast.character,
-    //       profileImagePath: cast.profile_path,
-    //     })),
-    //     crew: filterCrewJobs(result.credits.crew).map((crew) => ({
-    //       name: crew.name,
-    //       job: crew.job,
-    //       profileImagePath: crew.profile_path,
-    //     })),
-    //   } satisfies Movie)
-    //   .onConflictDoNothing();
-
-    // return {
-    //   ok: true,
-    //   data: {
-    //     id,
-    //   },
-    // };
-  },
+export default eventHandler(async (event) =>
+  validateBody(event, (z) =>
+    z.object({
+      id: z.string(),
+    }),
+  )
+    .andThen((body) => getMovie(body.id))
+    .andThen(insertMovie),
 );
 
 function insertMovie(movie: Movie) {
   return ResultAsync.fromPromise(
-    db.insert(movies).values(movie).onConflictDoNothing(),
+    db.insert(movies).values(movie),
     (e) => new DatabaseError(e),
-  ).andThen((r) => r)
+  );
 }

@@ -7,7 +7,7 @@ type GetMovieError =
   | { type: "tmdb-error"; message: string; cause: unknown }
   | { type: "not-found" };
 
-export function getMovie(imdbId: string) {
+export function getMovie(imdbId: string): ResultAsync<Movie, GetMovieError> {
   return getMovieId(imdbId)
     .andThen(getFirstFoundMovie)
     .andThen(getMovieDetails)

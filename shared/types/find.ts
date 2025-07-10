@@ -1,9 +1,11 @@
+export type PersonInfo = {
+  name: string;
+  profile_path: string;
+  gender: number;
+};
+
 export type FindResponsePerson = {
-  person_results: {
-    name: string;
-    profile_path: string;
-    gender: number;
-  }[];
+  person_results: PersonInfo[];
 };
 
 export type FindResponseMovie = {

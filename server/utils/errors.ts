@@ -1,34 +1,60 @@
-import type { ZodError } from "zod/v4";
+import { type ZodError, prettifyError } from "zod/v4";
+import { err } from "neverthrow";
 
-export class InvalidInputError extends Error {
-  readonly type = "InvalidInput" as const;
+export type SystemError =
+  | InvalidInputError
+  | ParsingBodyError
+  | DatabaseError
+  | DatabaseNoRowEffectedError;
+
+export type InvalidInputError = {
+  type: "InvalidInput";
   cause: ZodError;
+  message: string;
+};
 
-  constructor(cause: ZodError) {
-    super("Invalid input provided");
-    this.name = "InvalidInputError";
-    this.cause = cause;
-  }
+export function createInvalidInputError(cause: ZodError) {
+  return err({
+    type: "InvalidInput",
+    cause,
+    message: prettifyError(cause),
+  });
 }
 
-export class ParsingBodyError extends Error {
-  readonly type = "ParsingBody" as const;
-  cause: unknown;
+export type ParsingBodyError = {
+  type: "ParsingBody";
+  cause: Error;
+  body?: unknown;
+};
 
-  constructor(cause: unknown) {
-    super("Error validating body");
-    this.name = "InvalidInputError";
-    this.cause = cause;
-  }
+export function createParsingBodyError(cause: Error, body?: unknown) {
+  return err({
+    type: "ParsingBody",
+    cause,
+    body,
+  });
 }
 
-export class DatabaseError extends Error {
-  readonly type = "DatabaseError" as const;
-  cause: unknown;
+export type DatabaseError = {
+  type: "DatabaseError";
+  cause: Error;
+};
 
-  constructor(cause: unknown) {
-    super("Database operation failed");
-    this.name = "DatabaseError";
-    this.cause = cause;
-  }
+export function createDatabaseError(cause: Error) {
+  return err({
+    type: "DatabaseError",
+    cause,
+  });
+}
+
+export type DatabaseNoRowEffectedError = {
+  type: "DatabaseNoRowEffectedError";
+  message: string;
+};
+
+export function createDatabaseNoRowEffectedError(message: string) {
+  return err({
+    type: "DatabaseNoRowEffectedError",
+    message,
+  });
 }

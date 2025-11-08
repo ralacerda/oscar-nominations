@@ -1,59 +1,25 @@
 import { err, ok, ResultAsync } from "neverthrow";
 import { movies } from "~~/database/schema/movies";
 import { getMovieId, getMovieDetails } from "~~/server/services/tmdb";
+import type * as z from "zod/v4";
 
-export default eventHandler(async (event) =>
-  validateBody(event, (z) =>
-    z.object({
-      id: z.string(),
-    }),
-  )
+export default eventHandler((event) =>
+  validateBody(event, moviePostBody)
     .andThen((body) => getMovieId(body.id))
     .andThen(getMovieDetails)
     .map(createMovieInstance)
-    .andThen(insertMovie)
-    .mapErr((error) => {
-      switch (error.type) {
-        case "TMDBApi":
-          return createError({
-            statusCode: 500,
-            statusMessage: error.message,
-          });
-        case "NotFound":
-          return createError({
-            statusCode: 404,
-            statusMessage: "Movie not found",
-          });
-        case "InvalidInput":
-          return createError({
-            statusCode: 400,
-            statusMessage: error.message,
-          });
-        case "ParsingBody":
-          return createError({
-            statusCode: 400,
-          });
-        case "DatabaseError":
-          return createError({
-            statusCode: 500,
-            cause: error.cause,
-          });
-        case "DatabaseNoRowEffectedError":
-          return createError({
-            statusCode: 200,
-            statusMessage: error.message,
-          });
-        default:
-          error satisfies never;
-          return createError({
-            statusCode: 500,
-            statusMessage: "Unknown error",
-          });
-      }
-    }),
+    .andThen(insertMovie),
 );
 
-function insertMovie(movie: Movie): ResultAsync<void, DatabaseError | DatabaseNoRowEffectedError> {
+function moviePostBody(zod: typeof z) {
+  return zod.object({
+    id: zod.string(),
+  });
+}
+
+function insertMovie(
+  movie: Movie,
+): ResultAsync<string, DatabaseError | DatabaseNoRowEffectedError> {
   return ResultAsync.fromPromise(db.insert(movies).values(movie).onConflictDoNothing(), (e) => ({
     type: "DatabaseError" as const,
     cause: e as Error,
@@ -64,7 +30,7 @@ function insertMovie(movie: Movie): ResultAsync<void, DatabaseError | DatabaseNo
         message: `No row was inserted for movie with ID ${movie.id}`,
       });
     }
-    return ok();
+    return ok("okay");
   });
 }
 

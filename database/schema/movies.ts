@@ -10,7 +10,7 @@ export const people = sqliteTable("people_table", {
 
 export const movies = sqliteTable("movies_table", {
   id: int().primaryKey(),
-  backdropPath: text().notNull(),
+  backdropPath: text(),
   originalTitle: text().notNull(),
   overview: text(),
   posterPath: text().notNull(),

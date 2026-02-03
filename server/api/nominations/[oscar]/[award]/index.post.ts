@@ -3,7 +3,7 @@ import { nominations } from "~~/database/schema/movies";
 
 const MovieScheme = v.object({
   id: v.union([v.string(), v.number()]),
-  nominee: v.union([v.string(), v.number()]),
+  nominee: v.union([v.string(), v.number(), v.undefined()]),
   won: v.optional(v.boolean()),
   imdbCode: v.optional(v.boolean()),
 });
@@ -53,7 +53,9 @@ export default eventHandler(async (event) => {
       nomineeId:
         typeof movie.nominee === "number"
           ? movie.nominee
-          : parseInt(movie.nominee),
+          : movie.nominee === undefined
+            ? undefined
+            : parseInt(movie.nominee),
       won: movie.won,
     });
 

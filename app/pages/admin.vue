@@ -19,6 +19,7 @@ const currentOscar = ref<Oscar>(oscars.value[0]!);
 const nominationCount = computed(() => {
   return state.value.data?.length || 0;
 });
+const imdbCode = ref(false);
 
 const { state, refetch } = useQuery({
   key: () => ["nomination", currentAward.value.id, currentOscar.value.id],
@@ -51,20 +52,26 @@ async function submit(
 }
 
 async function submitBatch(content: string) {
+  console.log("content:", content);
+
   const nominations = content.split("\n").map((line) => {
     if (currentAward.value.requiresNominee) {
       const [movie, nominee, won] = line.split(",");
       return {
-        id: parseInt(movie!),
-        nominee: parseInt(nominee!),
+        id: imdbCode.value ? movie : parseInt(movie!),
+        nominee: imdbCode.value ? nominee : parseInt(nominee!),
         won: won == "true" ? true : false,
+        imdbCode: imdbCode.value,
       };
     }
 
     const [id, won] = line.split(",");
+    console.log("id:", id, "won:", won);
     return {
-      id: parseInt(id!),
+      id: imdbCode.value ? id : parseInt(id!),
       won: won == "true" ? true : false,
+      nominee: undefined,
+      imdbCode: imdbCode.value,
     };
   });
 
@@ -115,6 +122,8 @@ async function deleteNomination(nominationId: number) {
         {{ award.title }}
       </option>
     </select>
+    <label for="imdbCode">IMDb Code</label>
+    <input id="imdbCode" v-model="imdbCode" type="checkbox" />
 
     <SingleInsert
       :requires-nominee="currentAward.requiresNominee"

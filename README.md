@@ -27,7 +27,7 @@ pnpm build
 - **Nuxt Server API** - Server-side API endpoints using Nuxt API routes
 - **Drizzle ORM** - TypeScript ORM for SQL databases
 - **LibSQL** - SQLite-compatible database used for storing Oscar and movie data
-- **Valibot** - Runtime type validation library for data validation
+- **Zod** - TypeScript-first schema validation library for runtime type checking
 
 ### APIs and Integration
 - **TMDb API** - External movie database API integration for fetching movie and person data

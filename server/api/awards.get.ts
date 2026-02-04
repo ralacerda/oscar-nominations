@@ -1,12 +1,12 @@
-import * as v from "valibot";
+import { z } from "zod";
 
-const AwardsScheme = v.object({
-  shorts: v.optional(v.union([v.literal("include"), v.literal("exclude")])),
+const AwardsScheme = z.object({
+  shorts: z.union([z.literal("include"), z.literal("exclude")]).optional(),
 });
 
 export default eventHandler(async (event) => {
   const { shorts } = await getValidatedQuery(event, (data) =>
-    v.parse(AwardsScheme, data),
+    AwardsScheme.parse(data),
   );
 
   if (!shorts) {

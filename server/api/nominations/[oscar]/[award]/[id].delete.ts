@@ -1,14 +1,14 @@
 import { eq } from "drizzle-orm";
-import * as v from "valibot";
+import { z } from "zod";
 import { nominations } from "~~/database/schema/movies";
 
-const NominationDeleteParams = v.object({
-  id: v.pipe(v.string(), v.transform(Number)),
+const NominationDeleteParams = z.object({
+  id: z.coerce.number(),
 });
 
 export default eventHandler(async (event) => {
   const { id } = await getValidatedRouterParams(event, (data) =>
-    v.parse(NominationDeleteParams, data),
+    NominationDeleteParams.parse(data),
   );
 
   await db.delete(nominations).where(eq(nominations.id, id));

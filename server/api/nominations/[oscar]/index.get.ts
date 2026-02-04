@@ -1,21 +1,21 @@
 import { desc, gt, sql } from "drizzle-orm";
-import * as v from "valibot";
+import { z } from "zod";
 
-const NominationOscarIdParams = v.object({
-  oscar: v.pipe(v.string(), v.transform(Number)),
+const NominationOscarIdParams = z.object({
+  oscar: z.coerce.number(),
 });
 
-const NominationQuery = v.object({
-  limit: v.optional(v.pipe(v.string(), v.transform(Number))),
+const NominationQuery = z.object({
+  limit: z.coerce.number().optional(),
 });
 
 export default eventHandler(async (event) => {
   const { oscar } = await getValidatedRouterParams(event, (data) =>
-    v.parse(NominationOscarIdParams, data),
+    NominationOscarIdParams.parse(data),
   );
 
   const { limit } = await getValidatedQuery(event, (data) =>
-    v.parse(NominationQuery, data),
+    NominationQuery.parse(data),
   );
 
   return await db.query.movies.findMany({

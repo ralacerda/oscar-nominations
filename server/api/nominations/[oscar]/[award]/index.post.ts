@@ -1,29 +1,29 @@
-import * as v from "valibot";
+import { z } from "zod";
 import { nominations } from "~~/database/schema/movies";
 
-const MovieScheme = v.object({
-  id: v.union([v.string(), v.number()]),
-  nominee: v.union([v.string(), v.number(), v.undefined()]),
-  won: v.optional(v.boolean()),
-  imdbCode: v.optional(v.boolean()),
+const MovieScheme = z.object({
+  id: z.union([z.string(), z.number()]),
+  nominee: z.union([z.string(), z.number(), z.undefined()]).optional(),
+  won: z.boolean().optional(),
+  imdbCode: z.boolean().optional(),
 });
 
-const NominationBodyScheme = v.union([v.array(MovieScheme), MovieScheme]);
+const NominationBodyScheme = z.union([z.array(MovieScheme), MovieScheme]);
 
-const NominationParams = v.object({
-  oscar: v.pipe(v.string(), v.transform(Number)),
-  award: v.pipe(v.string(), v.trim(), v.nonEmpty()),
+const NominationParams = z.object({
+  oscar: z.coerce.number(),
+  award: z.string().trim().min(1),
 });
 
 export default eventHandler(async (event) => {
   const _movies = await readValidatedBody(event, (data) =>
-    v.parse(NominationBodyScheme, data),
+    NominationBodyScheme.parse(data),
   );
 
   const movies = Array.isArray(_movies) ? _movies : [_movies];
 
   const { oscar, award } = await getValidatedRouterParams(event, (data) =>
-    v.parse(NominationParams, data),
+    NominationParams.parse(data),
   );
 
   for (const movie of movies) {

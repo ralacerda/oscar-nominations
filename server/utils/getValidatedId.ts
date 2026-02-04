@@ -1,9 +1,9 @@
-import * as v from "valibot";
+import { z } from "zod";
 
-const IdScheme = v.object({
-  id: v.number(),
+const IdScheme = z.object({
+  id: z.number(),
 });
 
 export function getValidatedId(params: unknown): { id: number } {
-  return v.parse(IdScheme, params);
+  return IdScheme.parse(params);
 }

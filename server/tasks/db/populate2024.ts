@@ -1,8 +1,8 @@
-import * as v from "valibot";
+import { z } from "zod";
 import { awardsInfo } from "~~/shared/utils/awards";
 
-const populatePayloadScheme = v.object({
-  delay: v.optional(v.pipe(v.string(), v.transform(Number))),
+const populatePayloadScheme = z.object({
+  delay: z.coerce.number().optional(),
 });
 
 export default defineTask({
@@ -10,7 +10,7 @@ export default defineTask({
     name: "db:populate2024",
   },
   async run({ payload }) {
-    const { delay } = v.parse(populatePayloadScheme, payload);
+    const { delay } = populatePayloadScheme.parse(payload);
 
     const lines = data_2024.trim().split("\n\n");
 

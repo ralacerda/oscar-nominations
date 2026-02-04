@@ -1,8 +1,8 @@
-import * as v from "valibot";
+import { z } from "zod";
 
 export default eventHandler(async (event) => {
   const { id } = await getValidatedRouterParams(event, (data) =>
-    v.parse(v.object({ id: v.pipe(v.string(), v.transform(Number)) }), data),
+    z.object({ id: z.coerce.number() }).parse(data),
   );
 
   return await db.query.movies.findFirst({

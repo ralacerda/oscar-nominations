@@ -1,13 +1,13 @@
-import * as v from "valibot";
+import { z } from "zod";
 
-const NominationParams = v.object({
-  award: v.pipe(v.string(), v.trim(), v.nonEmpty()),
-  oscar: v.pipe(v.string(), v.transform(Number)),
+const NominationParams = z.object({
+  award: z.string().trim().min(1),
+  oscar: z.coerce.number(),
 });
 
 export default eventHandler(async (event) => {
   const { award, oscar } = await getValidatedRouterParams(event, (data) =>
-    v.parse(NominationParams, data),
+    NominationParams.parse(data),
   );
 
   return await db.query.nominations.findMany({

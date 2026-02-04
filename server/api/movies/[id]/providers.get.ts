@@ -1,13 +1,13 @@
-import * as v from "valibot";
+import { z } from "zod";
 
-const paramsScheme = v.object({
-  id: v.string(),
+const paramsScheme = z.object({
+  id: z.string(),
 });
 
 export default cachedEventHandler(
   async (event) => {
     const { id } = await getValidatedRouterParams(event, (data) =>
-      v.parse(paramsScheme, data),
+      paramsScheme.parse(data),
     );
 
     const key = useRuntimeConfig(event).tmdbAccessToken;

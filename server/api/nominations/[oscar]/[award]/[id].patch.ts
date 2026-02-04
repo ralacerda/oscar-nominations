@@ -1,22 +1,22 @@
 import { eq } from "drizzle-orm";
-import * as v from "valibot";
+import { z } from "zod";
 import { nominations } from "~~/database/schema/movies";
 
-const NominationPatchBodyScheme = v.object({
-  won: v.boolean(),
+const NominationPatchBodyScheme = z.object({
+  won: z.boolean(),
 });
 
-const NominationPatchParams = v.object({
-  id: v.pipe(v.string(), v.transform(Number)),
+const NominationPatchParams = z.object({
+  id: z.coerce.number(),
 });
 
 export default eventHandler(async (event) => {
   const { id } = await getValidatedRouterParams(event, (data) =>
-    v.parse(NominationPatchParams, data),
+    NominationPatchParams.parse(data),
   );
 
   const { won } = await readValidatedBody(event, (data) =>
-    v.parse(NominationPatchBodyScheme, data),
+    NominationPatchBodyScheme.parse(data),
   );
 
   await db.update(nominations).set({ won }).where(eq(nominations.id, id));

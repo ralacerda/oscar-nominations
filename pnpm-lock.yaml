@@ -20,6 +20,9 @@ importers:
       '@nuxt/scripts':
         specifier: 0.13.2
         version: 0.13.2(@unhead/vue@2.1.2(vue@3.5.27(typescript@5.9.3)))(db0@0.3.4(@libsql/client@0.17.0)(drizzle-orm@0.45.1(@libsql/client@0.17.0)))(ioredis@5.9.2)(magicast@0.5.2)(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
+      '@oxc-parser/binding-linux-x64-gnu':
+        specifier: ^0.112.0
+        version: 0.112.0
       '@pinia/colada-nuxt':
         specifier: 0.0.4
         version: 0.0.4(@pinia/colada@0.13.8(pinia@2.3.1(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))))(magicast@0.5.2)
@@ -1443,6 +1446,12 @@ packages:
     cpu: [x64]
     os: [linux]
     libc: [glibc]
+
+  '@oxc-parser/binding-linux-x64-gnu@0.112.0':
+    resolution: {integrity: sha512-jKwO7ZLNkjxwg7FoCLw+fJszooL9yXRZsDN0AQ1AQUTWq1l8GH/2e44k68N3fcP19jl8O8jGpqLAZcQTYk6skA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
 
   '@oxc-parser/binding-linux-x64-musl@0.110.0':
     resolution: {integrity: sha512-6DiYhVdXKOzB01+j/tyrB6/d2o6b4XYFQvcbBRNbVHIimS6nl992y3V3mGG3NaA+uCZAzhT3M3btTdKAxE4A3A==}
@@ -6715,6 +6724,8 @@ snapshots:
 
   '@oxc-parser/binding-linux-x64-gnu@0.110.0':
     optional: true
+
+  '@oxc-parser/binding-linux-x64-gnu@0.112.0': {}
 
   '@oxc-parser/binding-linux-x64-musl@0.110.0':
     optional: true

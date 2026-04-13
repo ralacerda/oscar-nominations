@@ -18,21 +18,24 @@ pnpm build
 ## Technology Stack
 
 ### Frontend
+
 - **Nuxt 3** - Vue.js framework for building server-side rendered applications
 - **Vue 3** - Progressive JavaScript framework for building user interfaces
-- **Pinia** - State management for Vue applications
 - **SCSS/Sass** - CSS preprocessor for styling components
 
 ### Backend
+
 - **Nuxt Server API** - Server-side API endpoints using Nuxt API routes
 - **Drizzle ORM** - TypeScript ORM for SQL databases
 - **LibSQL** - SQLite-compatible database used for storing Oscar and movie data
 - **Zod** - TypeScript-first schema validation library for runtime type checking
 
 ### APIs and Integration
+
 - **TMDb API** - External movie database API integration for fetching movie and person data
 
 ### Development Tools
+
 - **TypeScript** - Typed JavaScript for improved developer experience
 - **ESLint** - Code linting and static analysis
 - **Prettier** - Code formatting
